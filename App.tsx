@@ -20,6 +20,7 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {AppRoutes} from './src/navigations';
+import {ThemeProvider} from './src/theme';
 
 const SafeAreaView =
   Platform.OS === 'ios' ? SafeAreaViewIOS : SafeAreaViewAndroid;
@@ -33,15 +34,17 @@ function App(): React.JSX.Element {
 
   return (
     <GestureHandlerRootView>
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.container}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={backgroundStyle.backgroundColor}
-          />
-          <AppRoutes />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.container}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              backgroundColor={backgroundStyle.backgroundColor}
+            />
+            <AppRoutes />
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }
