@@ -6,19 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Pressable,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Login = () => {
-  const [loginType, setLoginType] = useState('email');
+  const [loginType, setLoginType] = useState('email'); // 'email' or 'phone'
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = () => {
     Alert.alert(
       'Login Attempt',
       `Method: ${loginType}\nValue: ${
-        loginType === 'email' ? email : `${phoneNumber}`
+        loginType === 'email' ? email : `+${phoneNumber}`
       }\nPassword: ${password}`,
     );
   };
@@ -62,7 +65,7 @@ const Login = () => {
       {/* Email or Phone Input */}
       {loginType === 'email' ? (
         <View style={styles.inputContainer}>
-          {/* <Icon name="envelope" size={20} color="#888" style={styles.icon} /> */}
+          <Icon name="envelope" size={20} color="#888" style={styles.icon} />
           <TextInput
             style={styles.input}
             placeholder="Enter your email"
@@ -84,6 +87,7 @@ const Login = () => {
 
       {/* Password Input */}
       <View style={styles.inputContainer}>
+        <Icon name="lock" size={20} color="#888" style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -94,9 +98,12 @@ const Login = () => {
 
       {/* Remember Me & Forgot Password */}
       <View style={styles.row}>
-        <View style={styles.rememberMe}>
+        <Pressable
+          style={styles.rememberMe}
+          onPress={() => setRememberMe(!rememberMe)}>
+          <Icon name={!rememberMe ? 'square-o' : 'check-square-o'} size={20} />
           <Text style={styles.rememberText}>Remember Me</Text>
-        </View>
+        </Pressable>
         <TouchableOpacity>
           <Text style={styles.forgotPassword}>Forgot Password?</Text>
         </TouchableOpacity>
@@ -116,13 +123,13 @@ const Login = () => {
       <Text style={styles.socialLoginText}>Or Login With</Text>
       <View style={styles.socialContainer}>
         <TouchableOpacity style={[styles.socialButton, styles.google]}>
-          <Text style={styles.socialButtonText}>G</Text>
+          <Icon name="google" size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.socialButton, styles.facebook]}>
-          <Text style={styles.socialButtonText}>F</Text>
+          <Icon name="facebook" size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.socialButton, styles.apple]}>
-          <Text style={styles.socialButtonText}>A</Text>
+          <Icon name="apple" size={24} color="white" />
         </TouchableOpacity>
       </View>
     </View>
@@ -178,11 +185,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-  },
-  callingCode: {
-    fontSize: 16,
-    marginRight: 5,
-    color: '#555',
   },
   input: {
     flex: 1,
@@ -256,11 +258,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  socialButtonText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#fff',
   },
   google: {backgroundColor: '#DB4437'},
   facebook: {backgroundColor: '#1877F2'},

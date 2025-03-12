@@ -19,7 +19,7 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import {AppRoutes} from './src/navigations';
+import {AppRouter} from './src/navigations';
 import {ThemeProvider} from './src/theme';
 
 const SafeAreaView =
@@ -41,7 +41,7 @@ function App(): React.JSX.Element {
               barStyle={isDarkMode ? 'light-content' : 'dark-content'}
               backgroundColor={backgroundStyle.backgroundColor}
             />
-            <AppRoutes />
+            <AppRouter />
           </SafeAreaView>
         </SafeAreaProvider>
       </ThemeProvider>

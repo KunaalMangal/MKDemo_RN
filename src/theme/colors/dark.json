@@ -1,0 +1,36 @@
+{
+  "primary": "#6ea8fe",
+  "secondary": "#a7acb1",
+  "success": "#75b798",
+  "danger": "#ea868f",
+  "warning": "#ffda6a",
+  "info": "#6edff6",
+  "light": "#343a40",
+  "dark": "#212529",
+  "muted": "#6c757d",
+  "white": "#ffffff",
+  "black": "#000000",
+  "transparent": "transparent",
+
+  "infoLight": "#032830",
+  "infoDark": "#087990",
+  "successLight": "#051b11",
+  "successDark": "#0f5132",
+  "dangerLight": "#2c0b0e",
+  "dangerDark": "#842029",
+  "warningLight": "#332701",
+  "warningDark": "#997404",
+
+  "gray100": "#212121",
+  "gray200": "#343a40",
+  "gray300": "#495057",
+  "gray400": "#6c757d",
+  "gray500": "#adb5bd",
+  "gray600": "#dee2e6",
+  "gray700": "#e9ecef",
+  "gray800": "#f8f9fa",
+  "gray900": "#ffffff",
+
+  "navbar": "#212529",
+  "footer": "#161719"
+}
