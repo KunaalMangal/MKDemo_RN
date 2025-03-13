@@ -1,28 +1,60 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   Pressable,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { styles } from './styles';
+import { useAuth } from '../../../hooks';
+import { ROUTES } from '../../../navigations';
+import AppInput from '../../../components/AppInput/AppInput';
+
 const Login = () => {
-  const [loginType, setLoginType] = useState('email'); // 'email' or 'phone'
+  const navigation = useNavigation();
+  const { login, loading } = useAuth();
+  const [loginType, setLoginType] = useState<'email' | 'phone'>('email');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleLogin = () => {
+    let valid = true;
+    let newErrors = {};
+
+    if (loginType === 'email' && !email) {
+      newErrors.email = 'Please enter a valid email';
+      valid = false;
+    }
+    if (loginType === 'phone' && !phoneNumber) {
+      newErrors.phoneNumber = 'Please enter a valid phone number';
+      valid = false;
+    }
+    if (!password) {
+      newErrors.password = 'Please enter your password';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!valid) return;
+
+    const userData = {
+      name: loginType === 'email' ? email : phoneNumber,
+      email: loginType === 'email' ? email : '',
+    };
+
+    login(userData);
+
     Alert.alert(
       'Login Attempt',
-      `Method: ${loginType}\nValue: ${
-        loginType === 'email' ? email : `+${phoneNumber}`
-      }\nPassword: ${password}`,
+      `Method: ${loginType}\nValue: ${userData.name}`,
     );
   };
 
@@ -30,19 +62,20 @@ const Login = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Welcome Back!</Text>
 
-      {/* Toggle Between Email & Phone Login */}
       <View style={styles.switchContainer}>
         <TouchableOpacity
           style={[
             styles.switchButton,
             loginType === 'email' && styles.activeSwitch,
           ]}
-          onPress={() => setLoginType('email')}>
+          onPress={() => setLoginType('email')}
+        >
           <Text
             style={[
               styles.switchText,
               loginType === 'email' && styles.activeSwitchText,
-            ]}>
+            ]}
+          >
             Email
           </Text>
         </TouchableOpacity>
@@ -51,56 +84,54 @@ const Login = () => {
             styles.switchButton,
             loginType === 'phone' && styles.activeSwitch,
           ]}
-          onPress={() => setLoginType('phone')}>
+          onPress={() => setLoginType('phone')}
+        >
           <Text
             style={[
               styles.switchText,
               loginType === 'phone' && styles.activeSwitchText,
-            ]}>
+            ]}
+          >
             Phone
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Email or Phone Input */}
       {loginType === 'email' ? (
-        <View style={styles.inputContainer}>
-          <Icon name="envelope" size={20} color="#888" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your email"
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
+        <AppInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Enter your email"
+          leftIcon="envelope"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          error={errors.email}
+        />
       ) : (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your phone number"
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-          />
-        </View>
+        <AppInput
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          placeholder="Enter your phone number"
+          leftIcon="phone"
+          keyboardType="phone-pad"
+          error={errors.phoneNumber}
+        />
       )}
 
-      {/* Password Input */}
-      <View style={styles.inputContainer}>
-        <Icon name="lock" size={20} color="#888" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={setPassword}
-        />
-      </View>
+      <AppInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Password"
+        leftIcon="lock"
+        secureTextEntry
+        error={errors.password}
+      />
 
-      {/* Remember Me & Forgot Password */}
       <View style={styles.row}>
         <Pressable
           style={styles.rememberMe}
-          onPress={() => setRememberMe(!rememberMe)}>
+          onPress={() => setRememberMe(!rememberMe)}
+        >
           <Icon name={!rememberMe ? 'square-o' : 'check-square-o'} size={20} />
           <Text style={styles.rememberText}>Remember Me</Text>
         </Pressable>
@@ -109,17 +140,28 @@ const Login = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Login Button */}
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={styles.loginButtonText}>
+          {loading ? 'Logging in...' : 'Login'}
+        </Text>
       </TouchableOpacity>
 
-      {/* Sign Up Link */}
       <Text style={styles.signupText}>
-        Don't have an account? <Text style={styles.signupLink}>Sign Up</Text>
+        Don't have an account?{' '}
+        <Text
+          style={styles.signupLink}
+          onPress={() => {
+            navigation.navigate(ROUTES.SIGNUP);
+          }}
+        >
+          Sign Up
+        </Text>
       </Text>
 
-      {/* Social Login Options */}
       <Text style={styles.socialLoginText}>Or Login With</Text>
       <View style={styles.socialContainer}>
         <TouchableOpacity style={[styles.socialButton, styles.google]}>
@@ -135,133 +177,5 @@ const Login = () => {
     </View>
   );
 };
-
-// Styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    backgroundColor: '#F9F9F9',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    color: '#333',
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 15,
-  },
-  switchButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    backgroundColor: '#E0E0E0',
-    marginHorizontal: 5,
-  },
-  activeSwitch: {
-    backgroundColor: '#007BFF',
-  },
-  switchText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  activeSwitchText: {
-    color: 'white',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  input: {
-    flex: 1,
-    height: 50,
-    fontSize: 16,
-    paddingLeft: 10,
-    color: '#333',
-  },
-  icon: {
-    marginRight: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 15,
-  },
-  rememberMe: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  rememberText: {
-    marginLeft: 5,
-    fontSize: 14,
-    color: '#333',
-  },
-  forgotPassword: {
-    fontSize: 14,
-    color: '#007BFF',
-    textDecorationLine: 'underline',
-  },
-  loginButton: {
-    backgroundColor: '#007BFF',
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 15,
-    shadowColor: '#007BFF',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  signupText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#333',
-  },
-  signupLink: {
-    color: '#007BFF',
-    fontWeight: 'bold',
-  },
-  socialLoginText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#333',
-    marginVertical: 15,
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 15,
-  },
-  socialButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  google: {backgroundColor: '#DB4437'},
-  facebook: {backgroundColor: '#1877F2'},
-  apple: {backgroundColor: '#000'},
-});
 
 export default Login;
