@@ -1,28 +1,28 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, Alert, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {styles} from './styles';
+import {signupStyles} from './signupStyles';
 import {useAuth} from '../../../hooks';
-import {AppInput} from '../../../components';
+import {AppButton, AppInput} from '../../../components';
 import {ROUTES} from '../../../navigations';
+import {useAppStyles} from '../../../theme';
 
 const Signup = () => {
   const navigation = useNavigation();
-  const {signup, loading} = useAuth();
+  const {login, loading} = useAuth();
+  const appStyles = useAppStyles();
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [gender, setGender] = useState('');
-  const [country, setCountry] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [errors, setErrors] = useState<{[key: string]: string}>({});
 
   const handleSignup = () => {
     let valid = true;
-    let newErrors = {};
+    let newErrors: {[key: string]: string} = {};
 
     if (!email) {
       newErrors.email = 'Please enter a valid email';
@@ -40,14 +40,6 @@ const Signup = () => {
       newErrors.name = 'Please enter your name';
       valid = false;
     }
-    if (!gender) {
-      newErrors.gender = 'Please select your gender';
-      valid = false;
-    }
-    if (!country) {
-      newErrors.country = 'Please select your country';
-      valid = false;
-    }
     if (!termsAccepted) {
       newErrors.termsAccepted = 'Please accept the terms and conditions';
       valid = false;
@@ -62,18 +54,17 @@ const Signup = () => {
       phoneNumber,
       password,
       name,
-      gender,
-      country,
     };
 
-    signup(userData);
+    login(userData);
 
     Alert.alert('Signup Attempt', `Email: ${email}\nPhone: ${phoneNumber}`);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Signup</Text>
+    <View style={appStyles.container}>
+      <Text style={signupStyles.title}>Signup</Text>
+
       <AppInput
         value={name}
         onChangeText={setName}
@@ -81,6 +72,7 @@ const Signup = () => {
         leftIcon="user"
         error={errors.name}
       />
+
       <AppInput
         value={email}
         onChangeText={setEmail}
@@ -90,6 +82,7 @@ const Signup = () => {
         autoCapitalize="none"
         error={errors.email}
       />
+
       <AppInput
         value={phoneNumber}
         onChangeText={setPhoneNumber}
@@ -98,6 +91,7 @@ const Signup = () => {
         keyboardType="phone-pad"
         error={errors.phoneNumber}
       />
+
       <AppInput
         value={password}
         onChangeText={setPassword}
@@ -106,47 +100,34 @@ const Signup = () => {
         secureTextEntry
         error={errors.password}
       />
-      <View style={styles.inputContainer}>
-        <Icon name="venus-mars" size={20} color="#888" style={styles.icon} />
-        <Text style={styles.picker}>Male</Text>
-      </View>
-      {errors.gender && <Text style={styles.errorText}>{errors.gender}</Text>}
-      <View style={styles.inputContainer}>
-        <Icon name="globe" size={20} color="#888" style={styles.icon} />
-        <Text style={styles.picker}>India</Text>
-      </View>
-      {errors.country && <Text style={styles.errorText}>{errors.country}</Text>}
-      <View style={styles.checkboxContainer}>
-        <Icon.Button
-          name={!termsAccepted ? 'square-o' : 'check-square-o'}
-          size={20}
-          onPress={() => setTermsAccepted(!termsAccepted)}
-        />
-        <Text style={styles.label}>I accept the terms and conditions</Text>
+
+      <View style={signupStyles.checkboxContainer}>
+        <Pressable onPress={() => setTermsAccepted(!termsAccepted)}>
+          <Icon
+            name={!termsAccepted ? 'square-o' : 'check-square-o'}
+            size={20}
+          />
+        </Pressable>
+        <Text style={signupStyles.checkboxText}>
+          I accept the terms and conditions
+        </Text>
       </View>
       {errors.termsAccepted && (
-        <Text style={styles.errorText}>{errors.termsAccepted}</Text>
+        <Text style={appStyles.errorText}>{errors.termsAccepted}</Text>
       )}
-      <TouchableOpacity
-        style={styles.signupButton}
-        onPress={handleSignup}
-        disabled={loading}>
-        <Text style={styles.signupButtonText}>
-          {loading ? 'Signing up...' : 'Signup'}
+
+      <AppButton title="Signup" onPress={handleSignup} loading={loading} />
+
+      <Text style={signupStyles.loginText}>
+        Already have an account?{' '}
+        <Text
+          style={signupStyles.loginLink}
+          onPress={() => {
+            navigation.navigate(ROUTES.LOGIN);
+          }}>
+          Login
         </Text>
-      </TouchableOpacity>
-      <Text style={styles.orText}>Or</Text>
-      <View style={styles.socialContainer}>
-        <TouchableOpacity style={[styles.socialButton, styles.google]}>
-          <Icon name="google" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.socialButton, styles.facebook]}>
-          <Icon name="facebook" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.socialButton, styles.apple]}>
-          <Icon name="apple" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
+      </Text>
     </View>
   );
 };

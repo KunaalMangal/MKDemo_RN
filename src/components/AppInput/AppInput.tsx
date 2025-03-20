@@ -2,120 +2,111 @@ import React, {useState} from 'react';
 import {
   View,
   TextInput,
-  Text,
-  StyleSheet,
   TouchableOpacity,
+  TextInputProps,
+  StyleSheet,
+  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-interface AppInputProps {
+import {useAppStyles, useTheme} from '../../theme';
+
+interface AppInputProps extends TextInputProps {
   value: string;
   onChangeText: (text: string) => void;
+  label?: string;
   placeholder?: string;
   leftIcon?: string;
   rightIcon?: string;
   onRightIconPress?: () => void;
-  floatingLabel?: string;
   error?: string;
-  secureTextEntry?: boolean;
-  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
 const AppInput: React.FC<AppInputProps> = ({
   value,
   onChangeText,
+  label,
   placeholder,
   leftIcon,
   rightIcon,
   onRightIconPress,
-  floatingLabel,
   error,
   secureTextEntry,
   keyboardType = 'default',
+  autoCapitalize = 'none',
+  ...props
 }) => {
+  const {colors} = useTheme();
+  const appStyles = useAppStyles();
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View style={styles.container}>
-      {floatingLabel && (
-        <Text
-          style={[
-            styles.floatingLabel,
-            isFocused && styles.floatingLabelFocused,
-          ]}>
-          {floatingLabel}
-        </Text>
-      )}
+    <View style={inputStyles.inputContainerWrapper}>
+      {label && <Text style={inputStyles.staticLabel}>{label}</Text>}
+
       <View
         style={[
-          styles.inputContainer,
-          isFocused && styles.inputContainerFocused,
-          error && styles.inputContainerError,
+          appStyles.inputContainer,
+          {
+            borderColor: error
+              ? colors.danger
+              : isFocused
+              ? colors.primary
+              : colors.gray400,
+          },
         ]}>
         {leftIcon && (
-          <Icon name={leftIcon} size={20} color="#888" style={styles.icon} />
+          <Icon
+            name={leftIcon}
+            size={20}
+            color={colors.gray600}
+            style={inputStyles.icon}
+          />
         )}
+
         <TextInput
-          style={styles.input}
+          style={[appStyles.input]}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
+          placeholderTextColor={colors.gray500}
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          accessibilityLabel={label}
+          testID={`input-${label}`}
+          {...props}
         />
+
         {rightIcon && (
           <TouchableOpacity onPress={onRightIconPress}>
-            <Icon name={rightIcon} size={20} color="#888" style={styles.icon} />
+            <Icon
+              name={rightIcon}
+              size={20}
+              color={colors.gray600}
+              style={inputStyles.icon}
+            />
           </TouchableOpacity>
         )}
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+
+      {error && <Text style={[appStyles.errorText]}>{error}</Text>}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20,
+const inputStyles = StyleSheet.create({
+  inputContainerWrapper: {
+    marginBottom: 12,
   },
-  floatingLabel: {
-    position: 'absolute',
-    top: 0,
-    left: 10,
-    fontSize: 12,
-    color: '#888',
-  },
-  floatingLabelFocused: {
-    color: '#4285F4',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    height: 40,
-  },
-  inputContainerFocused: {
-    borderColor: '#4285F4',
-  },
-  inputContainerError: {
-    borderColor: 'red',
+  staticLabel: {
+    fontSize: 14,
+    marginBottom: 4,
   },
   icon: {
     marginRight: 10,
-  },
-  input: {
-    flex: 1,
-  },
-  errorText: {
-    color: 'red',
-    marginTop: 5,
-    fontSize: 12,
   },
 });
 

@@ -6,16 +6,20 @@ import {
 
 import {Home, MyAccount} from '../screens';
 import ROUTES from './Routes';
+import BottomTab from './BottomTab';
 
+const Stack = createNativeStackNavigator();
 interface AppRoutes {
   name: keyof typeof ROUTES;
   component: React.ComponentType<any>;
   options?: NativeStackNavigationOptions;
 }
 
-const Stack = createNativeStackNavigator();
-
 const appRoutes: AppRoutes[] = [
+  {
+    name: ROUTES.BOTTOMTAB,
+    component: BottomTab,
+  },
   {
     name: ROUTES.HOME,
     component: Home,

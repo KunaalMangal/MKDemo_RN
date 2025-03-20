@@ -1,6 +1,7 @@
 const Screens = {
   AUTH: 'AUTH',
   APP: 'APP',
+  BOTTOMTAB: 'BOTTOMTAB',
 
   LOGIN: 'LOGIN',
   SIGNUP: 'SIGNUP',

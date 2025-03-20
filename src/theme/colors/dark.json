@@ -29,8 +29,5 @@
   "gray600": "#dee2e6",
   "gray700": "#e9ecef",
   "gray800": "#f8f9fa",
-  "gray900": "#ffffff",
-
-  "navbar": "#212529",
-  "footer": "#161719"
+  "gray900": "#ffffff"
 }

@@ -1,41 +1,45 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-  Pressable,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, Alert, Pressable} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { styles } from './styles';
-import { useAuth } from '../../../hooks';
-import { ROUTES } from '../../../navigations';
+import {useAuth} from '../../../hooks';
+import {ROUTES} from '../../../navigations';
 import AppInput from '../../../components/AppInput/AppInput';
+import {AppButton} from '../../../components';
+import {useAppStyles, useTheme} from '../../../theme';
+import {loginStyles} from './loginStyles';
 
 const Login = () => {
   const navigation = useNavigation();
-  const { login, loading } = useAuth();
+  const {login, loading} = useAuth();
+  const {theme, switchTheme} = useTheme();
+  const appStyles = useAppStyles();
+
   const [loginType, setLoginType] = useState<'email' | 'phone'>('email');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
 
-  const handleLogin = () => {
+  const switchLoginType = (type: 'email' | 'phone') => {
+    setErrors({});
+    setLoginType(type);
+  };
+
+  const handleLogin = async () => {
     let valid = true;
-    let newErrors = {};
+    let newErrors: {[key: string]: string} = {};
 
     if (loginType === 'email' && !email) {
       newErrors.email = 'Please enter a valid email';
       valid = false;
-    }
-    if (loginType === 'phone' && !phoneNumber) {
+    } else if (loginType === 'phone' && !phoneNumber) {
       newErrors.phoneNumber = 'Please enter a valid phone number';
       valid = false;
     }
+
     if (!password) {
       newErrors.password = 'Please enter your password';
       valid = false;
@@ -50,53 +54,63 @@ const Login = () => {
       email: loginType === 'email' ? email : '',
     };
 
-    login(userData);
-
-    Alert.alert(
-      'Login Attempt',
-      `Method: ${loginType}\nValue: ${userData.name}`,
-    );
+    try {
+      await login(userData);
+      Alert.alert('Login Successful', `Logged in with: ${userData.name}`);
+    } catch (error) {
+      Alert.alert('Login Failed', 'Invalid credentials, please try again.');
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back!</Text>
+    <View style={appStyles.container}>
+      {/* Theme Switcher */}
+      <View style={loginStyles.themeSwitcher}>
+        <TouchableOpacity
+          onPress={() => switchTheme(theme === 'dark' ? 'light' : 'dark')}>
+          <Icon
+            name={theme === 'dark' ? 'sun-o' : 'moon-o'}
+            size={30}
+            color="#3b5998"
+          />
+        </TouchableOpacity>
+      </View>
 
-      <View style={styles.switchContainer}>
+      <Text style={loginStyles.title}>Welcome Back!</Text>
+
+      {/* Switch between Email & Phone Login */}
+      <View style={loginStyles.switchContainer}>
         <TouchableOpacity
           style={[
-            styles.switchButton,
-            loginType === 'email' && styles.activeSwitch,
+            loginStyles.switchButton,
+            loginType === 'email' && loginStyles.activeSwitch,
           ]}
-          onPress={() => setLoginType('email')}
-        >
+          onPress={() => switchLoginType('email')}>
           <Text
             style={[
-              styles.switchText,
-              loginType === 'email' && styles.activeSwitchText,
-            ]}
-          >
+              loginStyles.switchText,
+              loginType === 'email' && loginStyles.activeSwitchText,
+            ]}>
             Email
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
-            styles.switchButton,
-            loginType === 'phone' && styles.activeSwitch,
+            loginStyles.switchButton,
+            loginType === 'phone' && loginStyles.activeSwitch,
           ]}
-          onPress={() => setLoginType('phone')}
-        >
+          onPress={() => switchLoginType('phone')}>
           <Text
             style={[
-              styles.switchText,
-              loginType === 'phone' && styles.activeSwitchText,
-            ]}
-          >
+              loginStyles.switchText,
+              loginType === 'phone' && loginStyles.activeSwitchText,
+            ]}>
             Phone
           </Text>
         </TouchableOpacity>
       </View>
 
+      {/* Input Fields */}
       {loginType === 'email' ? (
         <AppInput
           value={email}
@@ -106,6 +120,7 @@ const Login = () => {
           keyboardType="email-address"
           autoCapitalize="none"
           error={errors.email}
+          label="Email"
         />
       ) : (
         <AppInput
@@ -115,6 +130,7 @@ const Login = () => {
           leftIcon="phone"
           keyboardType="phone-pad"
           error={errors.phoneNumber}
+          label="Phone Number"
         />
       )}
 
@@ -125,55 +141,37 @@ const Login = () => {
         leftIcon="lock"
         secureTextEntry
         error={errors.password}
+        label="Password"
       />
 
-      <View style={styles.row}>
-        <Pressable
-          style={styles.rememberMe}
-          onPress={() => setRememberMe(!rememberMe)}
-        >
-          <Icon name={!rememberMe ? 'square-o' : 'check-square-o'} size={20} />
-          <Text style={styles.rememberText}>Remember Me</Text>
-        </Pressable>
+      {/* Remember Me & Forgot Password */}
+      <View style={loginStyles.row}>
+        <View style={loginStyles.rememberMe}>
+          <Pressable onPress={() => setRememberMe(!rememberMe)}>
+            <Icon
+              name={!rememberMe ? 'square-o' : 'check-square-o'}
+              size={20}
+            />
+          </Pressable>
+          <Text style={loginStyles.rememberText}>Remember Me</Text>
+        </View>
         <TouchableOpacity>
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          <Text style={loginStyles.forgotPassword}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        <Text style={styles.loginButtonText}>
-          {loading ? 'Logging in...' : 'Login'}
-        </Text>
-      </TouchableOpacity>
+      {/* Login Button */}
+      <AppButton title="Login" onPress={handleLogin} loading={loading} />
 
-      <Text style={styles.signupText}>
+      {/* Signup Link */}
+      <Text style={loginStyles.signupText}>
         Don't have an account?{' '}
         <Text
-          style={styles.signupLink}
-          onPress={() => {
-            navigation.navigate(ROUTES.SIGNUP);
-          }}
-        >
+          style={loginStyles.signupLink}
+          onPress={() => navigation.navigate(ROUTES.SIGNUP)}>
           Sign Up
         </Text>
       </Text>
-
-      <Text style={styles.socialLoginText}>Or Login With</Text>
-      <View style={styles.socialContainer}>
-        <TouchableOpacity style={[styles.socialButton, styles.google]}>
-          <Icon name="google" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.socialButton, styles.facebook]}>
-          <Icon name="facebook" size={24} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.socialButton, styles.apple]}>
-          <Icon name="apple" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
