@@ -1,9 +1,9 @@
 import {StyleSheet} from 'react-native';
-import { FONT_SIZES } from '../../../theme/Fonts';
+import { FONT_SIZE } from '../../../theme/Fonts';
 
 export const loginStyles = StyleSheet.create({
   title: {
-    fontSize: FONT_SIZES.FONTSIZE_24,
+    fontSize: FONT_SIZE.FONT_24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
@@ -30,7 +30,7 @@ export const loginStyles = StyleSheet.create({
     backgroundColor: '#007BFF',
   },
   switchText: {
-    fontSize: FONT_SIZES.FONTSIZE_16,
+    fontSize: FONT_SIZE.FONT_16,
     color: '#333',
   },
   activeSwitchText: {
@@ -47,17 +47,17 @@ export const loginStyles = StyleSheet.create({
   },
   rememberText: {
     marginLeft: 5,
-    fontSize: FONT_SIZES.FONTSIZE_14,
+    fontSize: FONT_SIZE.FONT_14,
     color: '#333',
   },
   forgotPassword: {
-    fontSize: FONT_SIZES.FONTSIZE_14,
+    fontSize: FONT_SIZE.FONT_14,
     color: '#007BFF',
     textDecorationLine: 'underline',
   },
   signupText: {
     textAlign: 'center',
-    fontSize: FONT_SIZES.FONTSIZE_14,
+    fontSize: FONT_SIZE.FONT_14,
     color: '#333',
   },
   signupLink: {

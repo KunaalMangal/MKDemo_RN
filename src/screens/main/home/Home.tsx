@@ -3,6 +3,7 @@ import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {ROUTES} from '../../../navigations';
+import { FONT_SIZE } from '../../../theme/Fonts';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: FONT_SIZE.FONT_20,
     fontWeight: 'bold',
   },
   content: {
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   welcomeText: {
-    fontSize: 18,
+    fontSize: FONT_SIZE.FONT_18,
     marginBottom: 20,
   },
   button: {
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: FONT_SIZE.FONT_16,
   },
 });
 

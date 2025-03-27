@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { FONT_SIZE } from '../../../theme/Fonts';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   headerText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: FONT_SIZE.FONT_20,
     fontWeight: 'bold',
   },
   content: {
@@ -41,12 +42,12 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   label: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.FONT_16,
     fontWeight: 'bold',
     marginTop: 10,
   },
   value: {
-    fontSize: 16,
+    fontSize: FONT_SIZE.FONT_16,
     marginBottom: 10,
   },
   button: {
@@ -58,7 +59,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: FONT_SIZE.FONT_16,
   },
   logoutButton: {
     backgroundColor: '#d9534f',

@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {useAppStyles, useTheme} from '../../theme';
+import { FONT_SIZE } from '../../theme/Fonts';
 
 interface AppInputProps extends TextInputProps {
   value: string;
@@ -102,7 +103,7 @@ const inputStyles = StyleSheet.create({
     marginBottom: 12,
   },
   staticLabel: {
-    fontSize: 14,
+    fontSize: FONT_SIZE.FONT_14,
     marginBottom: 4,
   },
   icon: {

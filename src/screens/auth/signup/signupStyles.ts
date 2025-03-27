@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
+import { FONT_SIZE } from '../../../theme/Fonts';
 
 export const signupStyles = StyleSheet.create({
   title: {
-    fontSize: 24,
+    fontSize: FONT_SIZE.FONT_24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
@@ -17,7 +18,7 @@ export const signupStyles = StyleSheet.create({
   },
   loginText: {
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: FONT_SIZE.FONT_14,
     color: '#333',
   },
   loginLink: {

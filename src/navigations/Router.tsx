@@ -1,7 +1,13 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+  Theme as NavigationTheme,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import {useTheme, themes, ThemeType } from '../theme';
 import {AuthProvider} from '../context';
 import ROUTES from './Routes';
 import AuthStack from './AuthStack';
@@ -11,13 +17,31 @@ import {SpinnerLoader} from '../components';
 
 const Stack = createNativeStackNavigator();
 
+// Navigation Theme Generator
+const getNavigationTheme = (
+  theme: ThemeType,
+  colors: typeof themes[ThemeType],
+): NavigationTheme => {
+  const baseTheme = theme === 'light' ? DefaultTheme : DarkTheme;
+  return {
+    ...baseTheme,
+    dark: theme === 'dark',
+    colors: {
+      ...baseTheme.colors,
+      primary: colors.primary,
+      background: colors.light,
+      card: colors.white,
+      text: colors.dark,
+      border: colors.gray400,
+      notification: colors.danger,
+    },
+  };
+};
+
 const RootStack = () => {
   const {isLoggedIn} = useAuth();
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       {!isLoggedIn ? (
         <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
       ) : (
@@ -28,9 +52,12 @@ const RootStack = () => {
 };
 
 const Router = () => {
+  const {theme, colors} = useTheme();
+  const navigationTheme = getNavigationTheme(theme, colors);
+
   return (
     <AuthProvider>
-      <NavigationContainer fallback={<SpinnerLoader />}>
+      <NavigationContainer theme={navigationTheme} fallback={<SpinnerLoader />}>
         <RootStack />
       </NavigationContainer>
     </AuthProvider>
