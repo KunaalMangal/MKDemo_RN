@@ -1,18 +1,20 @@
 import React, {useState} from 'react';
-import {View, Text, Alert, Pressable} from 'react-native';
+import {View, Alert, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import {signupStyles} from './signupStyles';
 import {useAuth} from '../../../hooks';
-import {AppButton, AppInput} from '../../../components';
+import {AppButton, AppInput, AppText} from '../../../components';
 import {ROUTES} from '../../../navigations';
 import {useAppStyles} from '../../../theme';
+import { useSignupStyles } from './signupStyles';
 
 const Signup = () => {
   const navigation = useNavigation();
   const {login, loading} = useAuth();
   const appStyles = useAppStyles();
+  const signupStyles = useSignupStyles();
+
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -47,7 +49,7 @@ const Signup = () => {
 
     setErrors(newErrors);
 
-    if (!valid) return;
+    if (!valid) {return;}
 
     const userData = {
       email,
@@ -63,7 +65,9 @@ const Signup = () => {
 
   return (
     <View style={appStyles.container}>
-      <Text style={signupStyles.title}>Signup</Text>
+      <AppText variant="h4" style={signupStyles.title}>
+        Signup
+      </AppText>
 
       <AppInput
         value={name}
@@ -108,26 +112,27 @@ const Signup = () => {
             size={20}
           />
         </Pressable>
-        <Text style={signupStyles.checkboxText}>
+        <AppText style={signupStyles.checkboxText}>
           I accept the terms and conditions
-        </Text>
+        </AppText>
       </View>
       {errors.termsAccepted && (
-        <Text style={appStyles.errorText}>{errors.termsAccepted}</Text>
+        <AppText variant="error">{errors.termsAccepted}</AppText>
       )}
 
       <AppButton title="Signup" onPress={handleSignup} loading={loading} />
 
-      <Text style={signupStyles.loginText}>
+      <AppText style={signupStyles.loginText}>
         Already have an account?{' '}
-        <Text
+        <AppText
+          variant="label"
           style={signupStyles.loginLink}
           onPress={() => {
             navigation.navigate(ROUTES.LOGIN);
           }}>
           Login
-        </Text>
-      </Text>
+        </AppText>
+      </AppText>
     </View>
   );
 };

@@ -1,45 +1,32 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {ROUTES} from '../../../navigations';
-import { FONT_SIZE } from '../../../theme/Fonts';
+import {FONT_SIZE} from '../../../theme/Fonts';
+import {AppButton, AppText} from '../../../components';
+import {useAppStyles} from '../../../theme';
 
 const Home = () => {
   const navigation = useNavigation();
+  const appStyles = useAppStyles();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Home</Text>
-      </View>
+    <View style={appStyles.container}>
       <View style={styles.content}>
-        <Text style={styles.welcomeText}>Welcome to the Home Screen!</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate(ROUTES.MYACCOUNT)}>
-          <Text style={styles.buttonText}>Go to Another Screen</Text>
-        </TouchableOpacity>
+        <AppText bold style={styles.welcomeText}>
+          Welcome to the Home Screen!
+        </AppText>
+        <AppButton
+          title="Go to My Account"
+          onPress={() => navigation.navigate(ROUTES.MYACCOUNT)}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    backgroundColor: '#4285F4',
-    padding: 20,
-    alignItems: 'center',
-  },
-  headerText: {
-    color: '#fff',
-    fontSize: FONT_SIZE.FONT_20,
-    fontWeight: 'bold',
-  },
   content: {
     flex: 1,
     justifyContent: 'center',
@@ -47,7 +34,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   welcomeText: {
-    fontSize: FONT_SIZE.FONT_18,
     marginBottom: 20,
   },
   button: {

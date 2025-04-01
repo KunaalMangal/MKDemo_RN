@@ -4,8 +4,9 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 
-import {Login, Signup} from '../screens';
 import ROUTES from './Routes';
+import {Login, Signup} from '../screens';
+import {AppHeader} from '../components';
 
 interface AuthRoutes {
   name: keyof typeof ROUTES;
@@ -27,9 +28,10 @@ const authRoutes: AuthRoutes[] = [
     name: ROUTES.SIGNUP,
     component: Signup,
     options: {
-      headerShown: false,
+      headerShown: true,
+      header: props => <AppHeader title="Signup" {...props} />,
     },
-  }
+  },
 ];
 
 const AuthStack: React.FC = () => {

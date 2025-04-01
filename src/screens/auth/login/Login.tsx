@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Alert, Pressable} from 'react-native';
+import {View, TouchableOpacity, Alert, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {useAuth} from '../../../hooks';
 import {ROUTES} from '../../../navigations';
-import AppInput from '../../../components/AppInput/AppInput';
-import {AppButton} from '../../../components';
+import {AppButton, AppInput, AppText} from '../../../components';
 import {useAppStyles, useTheme} from '../../../theme';
-import {loginStyles} from './loginStyles';
+import {useLoginStyles} from './loginStyles';
 
 const Login = () => {
   const navigation = useNavigation();
   const {login, loading} = useAuth();
   const {theme, switchTheme} = useTheme();
   const appStyles = useAppStyles();
+  const loginStyles = useLoginStyles();
 
   const [loginType, setLoginType] = useState<'email' | 'phone'>('email');
   const [email, setEmail] = useState('');
@@ -47,7 +47,9 @@ const Login = () => {
 
     setErrors(newErrors);
 
-    if (!valid) return;
+    if (!valid) {
+      return;
+    }
 
     const userData = {
       name: loginType === 'email' ? email : phoneNumber,
@@ -76,7 +78,7 @@ const Login = () => {
         </TouchableOpacity>
       </View>
 
-      <Text style={loginStyles.title}>Welcome Back!</Text>
+      <AppText style={loginStyles.title}>Welcome Back!</AppText>
 
       {/* Switch between Email & Phone Login */}
       <View style={loginStyles.switchContainer}>
@@ -86,13 +88,13 @@ const Login = () => {
             loginType === 'email' && loginStyles.activeSwitch,
           ]}
           onPress={() => switchLoginType('email')}>
-          <Text
+          <AppText
             style={[
               loginStyles.switchText,
               loginType === 'email' && loginStyles.activeSwitchText,
             ]}>
             Email
-          </Text>
+          </AppText>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -100,13 +102,13 @@ const Login = () => {
             loginType === 'phone' && loginStyles.activeSwitch,
           ]}
           onPress={() => switchLoginType('phone')}>
-          <Text
+          <AppText
             style={[
               loginStyles.switchText,
               loginType === 'phone' && loginStyles.activeSwitchText,
             ]}>
             Phone
-          </Text>
+          </AppText>
         </TouchableOpacity>
       </View>
 
@@ -153,10 +155,10 @@ const Login = () => {
               size={20}
             />
           </Pressable>
-          <Text style={loginStyles.rememberText}>Remember Me</Text>
+          <AppText style={loginStyles.rememberText}>Remember Me</AppText>
         </View>
         <TouchableOpacity>
-          <Text style={loginStyles.forgotPassword}>Forgot Password?</Text>
+          <AppText style={loginStyles.forgotPassword}>Forgot Password?</AppText>
         </TouchableOpacity>
       </View>
 
@@ -164,14 +166,15 @@ const Login = () => {
       <AppButton title="Login" onPress={handleLogin} loading={loading} />
 
       {/* Signup Link */}
-      <Text style={loginStyles.signupText}>
+      <AppText variant="label" style={loginStyles.signupText}>
         Don't have an account?{' '}
-        <Text
+        <AppText
+          variant="label"
           style={loginStyles.signupLink}
           onPress={() => navigation.navigate(ROUTES.SIGNUP)}>
           Sign Up
-        </Text>
-      </Text>
+        </AppText>
+      </AppText>
     </View>
   );
 };

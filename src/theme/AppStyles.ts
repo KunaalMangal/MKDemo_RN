@@ -2,8 +2,8 @@ import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 
 import {useTheme} from './ThemeContext';
-import {FONT_SIZE} from './Fonts';
-import {vh, vp} from '../utils';
+import {FONT_FAMILIES, FONT_SIZE} from './Fonts';
+import {vp} from '../utils';
 
 export const useAppStyles = () => {
   const {colors} = useTheme();
@@ -23,59 +23,10 @@ export const useAppStyles = () => {
           justifyContent: 'center',
           alignItems: 'center',
         },
-
-        // ==== TYPOGRAPHY ====
-        text: {
-          fontSize: FONT_SIZE.FONT_16,
-          fontWeight: 'normal',
-          color: colors.dark,
-          lineHeight: vh(24),
-        },
-        h1: {
-          fontSize: FONT_SIZE.FONT_34,
-          color: colors.dark,
-          fontWeight: 'bold',
-          lineHeight: vh(44),
-        },
-        h2: {
-          fontSize: FONT_SIZE.FONT_28,
-          color: colors.dark,
-          fontWeight: 'bold',
-          lineHeight: vh(34),
-        },
-        h3: {
-          fontSize: FONT_SIZE.FONT_22,
-          color: colors.dark,
-          fontWeight: '600',
-          lineHeight: vh(28),
-        },
-        h4: {
-          fontSize: FONT_SIZE.FONT_20,
-          color: colors.dark,
-        },
-        h5: {
-          fontSize: FONT_SIZE.FONT_18,
-          color: colors.dark,
-        },
-        h6: {
-          fontSize: FONT_SIZE.FONT_16,
-          color: colors.dark,
-        },
-        captionText: {
-          fontSize: FONT_SIZE.FONT_14,
-          color: colors.muted,
-        },
-        errorText: {
-          fontSize: FONT_SIZE.FONT_12,
-          color: colors.danger,
-        },
-        successText: {
-          fontSize: FONT_SIZE.FONT_12,
-          color: colors.success,
-        },
-        warningText: {
-          fontSize: FONT_SIZE.FONT_12,
-          color: colors.warning,
+        row: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         },
 
         // ==== BUTTON STYLES ====
@@ -93,9 +44,10 @@ export const useAppStyles = () => {
           elevation: 3,
         },
         buttonText: {
+          fontSize: FONT_SIZE.FONT_16,
+          fontFamily: FONT_FAMILIES.LATO_BOLD,
+          lineHeight: 24,
           color: colors.white,
-          fontSize: FONT_SIZE.FONT_18,
-          fontWeight: 'bold',
         },
         buttonSecondary: {
           flexDirection: 'row',
@@ -124,6 +76,7 @@ export const useAppStyles = () => {
           borderColor: colors.gray400,
           borderRadius: 8,
           paddingHorizontal: 12,
+          marginVertical: 5,
           height: 50,
           backgroundColor: colors.white,
         },
@@ -136,6 +89,7 @@ export const useAppStyles = () => {
         input: {
           flex: 1,
           fontSize: FONT_SIZE.FONT_16,
+          fontFamily: FONT_FAMILIES.LATO_REGULAR,
           color: colors.dark,
           paddingVertical: 10,
         },
@@ -155,15 +109,17 @@ export const useAppStyles = () => {
         },
         cardText: {
           fontSize: FONT_SIZE.FONT_18,
+          fontFamily: FONT_FAMILIES.LATO_REGULAR,
           color: colors.dark,
         },
         cardTitle: {
           fontSize: FONT_SIZE.FONT_22,
-          fontWeight: 'bold',
+          fontFamily: FONT_FAMILIES.LATO_BOLD,
           color: colors.primary,
         },
         cardSubtitle: {
           fontSize: FONT_SIZE.FONT_18,
+          fontFamily: FONT_FAMILIES.LATO_LIGHT,
           color: colors.secondary,
         },
 

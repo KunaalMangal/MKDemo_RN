@@ -1,11 +1,16 @@
 import {vfs} from '../utils';
 
 export const FONT_FAMILIES = {
-  REGULAR: 'Roboto-Regular',
-  BOLD: 'Roboto-Bold',
-  ITALIC: 'Roboto-Italic',
-  LIGHT: 'Roboto-Light',
-  MEDIUM: 'Roboto-Medium',
+  LATO_BLACK: 'Lato-Black',
+  LATO_BLACK_ITALIC: 'Lato-BlackItalic',
+  LATO_BOLD: 'Lato-Bold',
+  LATO_BOLD_ITALIC: 'Lato-BoldItalic',
+  LATO_ITALIC: 'Lato-Italic',
+  LATO_LIGHT: 'Lato-Light',
+  LATO_LIGHT_ITALIC: 'Lato-LightItalic',
+  LATO_REGULAR: 'Lato-Regular',
+  LATO_THIN: 'Lato-Thin',
+  LATO_THIN_ITALIC: 'Lato-ThinItalic',
 } as const;
 
 export const FONT_SIZE = {
@@ -33,7 +38,10 @@ export interface FontStyle {
   fontSize: FontSize;
 }
 
-export const getFontStyle = (family: FontFamily, size: FontSize): FontStyle => ({
-    fontFamily: family,
-    fontSize: size,
+export const getFontStyle = (
+  family: FontFamily,
+  size: FontSize,
+): FontStyle => ({
+  fontFamily: family,
+  fontSize: size,
 });

@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {useTheme, themes, ThemeType } from '../theme';
+import {useTheme, themes, ThemeType, FONT_FAMILIES} from '../theme';
 import {AuthProvider} from '../context';
 import ROUTES from './Routes';
 import AuthStack from './AuthStack';
@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 // Navigation Theme Generator
 const getNavigationTheme = (
   theme: ThemeType,
-  colors: typeof themes[ThemeType],
+  colors: (typeof themes)[ThemeType],
 ): NavigationTheme => {
   const baseTheme = theme === 'light' ? DefaultTheme : DarkTheme;
   return {
@@ -34,6 +34,24 @@ const getNavigationTheme = (
       text: colors.dark,
       border: colors.gray400,
       notification: colors.danger,
+    },
+    fonts: {
+      regular: {
+        fontFamily: FONT_FAMILIES.LATO_REGULAR,
+        fontWeight: 'normal',
+      },
+      medium: {
+        fontFamily: FONT_FAMILIES.LATO_REGULAR,
+        fontWeight: 'normal',
+      },
+      bold: {
+        fontFamily: FONT_FAMILIES.LATO_BOLD,
+        fontWeight: 'normal',
+      },
+      heavy: {
+        fontFamily: FONT_FAMILIES.LATO_BOLD,
+        fontWeight: 'normal',
+      },
     },
   };
 };

@@ -1,59 +1,58 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {styles} from './styles';
 import {ROUTES} from '../../../navigations';
 import {useAuth} from '../../../hooks';
+import {AppButton, AppText} from '../../../components';
+import {useAppStyles} from '../../../theme';
 
 const MyAccount = () => {
   const navigation = useNavigation();
   const {logout} = useAuth();
+  const appStyles = useAppStyles();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>My Account</Text>
-      </View>
+    <View style={appStyles.container}>
       <View style={styles.content}>
         <View style={styles.profilePictureContainer}>
           <Image
-            source={{uri: 'https://via.placeholder.com/150'}}
+            source={{uri: 'https://placeholder.co/150x150'}}
             style={styles.profilePicture}
             resizeMode="cover"
           />
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.label}>Name:</Text>
-          <Text style={styles.value}>KUNAAL MANGAL</Text>
+          <AppText variant="label">Name:</AppText>
+          <AppText>KUNAAL MANGAL</AppText>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.label}>Email:</Text>
-          <Text style={styles.value}>kunaal@kunaal.com</Text>
+          <AppText variant="label">Email:</AppText>
+          <AppText>kunaal@kunaal.com</AppText>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.label}>Phone Number:</Text>
-          <Text style={styles.value}>+1234567890</Text>
+          <AppText variant="label">Phone Number:</AppText>
+          <AppText>+1234567890</AppText>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.label}>Gender:</Text>
-          <Text style={styles.value}>Male</Text>
+          <AppText variant="label">Gender:</AppText>
+          <AppText>Male</AppText>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.label}>Country:</Text>
-          <Text style={styles.value}>India</Text>
+          <AppText variant="label">Country:</AppText>
+          <AppText>India</AppText>
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate(ROUTES.HOME)}>
-          <Text style={styles.buttonText}>Edit Account</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.logoutButton]}
-          onPress={logout}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
+        <AppButton
+          title="Edit Account"
+          onPress={() => navigation.navigate(ROUTES.HOME)}
+        />
+        <AppButton
+          title="Logout"
+          style={styles.logoutButton}
+          onPress={logout}
+        />
       </View>
     </View>
   );

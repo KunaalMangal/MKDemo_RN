@@ -5,12 +5,11 @@ import {
   TouchableOpacity,
   TextInputProps,
   StyleSheet,
-  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {useAppStyles, useTheme} from '../../theme';
-import { FONT_SIZE } from '../../theme/Fonts';
+import AppText from '../AppTexts/AppText';
 
 interface AppInputProps extends TextInputProps {
   value: string;
@@ -43,7 +42,11 @@ const AppInput: React.FC<AppInputProps> = ({
 
   return (
     <View style={inputStyles.inputContainerWrapper}>
-      {label && <Text style={inputStyles.staticLabel}>{label}</Text>}
+      {label && (
+        <AppText variant="label" style={inputStyles.staticLabel}>
+          {label}
+        </AppText>
+      )}
 
       <View
         style={[
@@ -93,7 +96,7 @@ const AppInput: React.FC<AppInputProps> = ({
         )}
       </View>
 
-      {error && <Text style={[appStyles.errorText]}>{error}</Text>}
+      {error && <AppText variant="error">{error}</AppText>}
     </View>
   );
 };
@@ -103,7 +106,6 @@ const inputStyles = StyleSheet.create({
     marginBottom: 12,
   },
   staticLabel: {
-    fontSize: FONT_SIZE.FONT_14,
     marginBottom: 4,
   },
   icon: {
