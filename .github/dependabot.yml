@@ -9,6 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily" # Options: daily, weekly, monthly
+    target-branch: "development" # Dependabot will create PRs against this branch
     open-pull-requests-limit: 5
     versioning-strategy: increase
     commit-message:
