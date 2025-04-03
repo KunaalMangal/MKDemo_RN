@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: "daily" # Options: daily, weekly, monthly
     target-branch: "development" # Dependabot will create PRs against this branch
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 20
     versioning-strategy: increase
     commit-message:
       prefix: "chore(deps)"
