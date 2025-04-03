@@ -1,14 +1,33 @@
+# MKDemo React Native App
+
+## 📌 Introduction
+Welcome to the **MKDemo React Native App**! This is a demo application built to demonstrate a sample project using React Native. It showcases core functionalities, navigation, and UI components while maintaining modern development standards.
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
+## 📖 Table of Contents
+- [Introduction](#-introduction)
+- [Requirements](#-requirements)
+- [Getting Started](#-getting-started)
+- [Installed Dependencies](#-installed-dependencies)
+- [Setup and Run](#-setup-and-run)
+- [Additional Resources](#-additional-resources)
+- [Troubleshooting](#-troubleshooting)
 
+## ✅ Requirements
+Before setting up the project, ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or later recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [React Native CLI](https://reactnative.dev/docs/environment-setup)
+- [Android Studio](https://developer.android.com/studio) (for Android development)
+- [Xcode](https://developer.apple.com/xcode/) (for iOS development)
+
+## 🚀 Getting Started
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Step 1: Start Metro
+Metro is the JavaScript build tool for React Native. To start the Metro dev server, run:
 
 ```sh
 # Using npm
@@ -18,12 +37,10 @@ npm start
 yarn start
 ```
 
-## Step 2: Build and run your app
+### Step 2: Build and Run Your App
+With Metro running, open a new terminal and use one of the following commands:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
+#### Android
 ```sh
 # Using npm
 npm run android
@@ -32,23 +49,14 @@ npm run android
 yarn android
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+#### iOS
+For iOS, install CocoaPods dependencies (only required on first setup or when updating native dependencies):
 
 ```sh
 bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
 bundle exec pod install
 ```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Then, run:
 
 ```sh
 # Using npm
@@ -58,40 +66,67 @@ npm run ios
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+If everything is set up correctly, you should see your new app running in the emulator or a connected device.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### Step 3: Modify Your App
+Open `App.tsx` in your text editor and make changes. Thanks to [Fast Refresh](https://reactnative.dev/docs/fast-refresh), your app will update automatically.
 
-## Step 3: Modify your app
+To manually reload:
+- **Android**: Press <kbd>R</kbd> twice or select **Reload** from the **Dev Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> on Windows/Linux, <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> on macOS).
+- **iOS**: Press <kbd>R</kbd> in the iOS Simulator.
 
-Now that you have successfully run the app, let's make changes!
+## 🎉 Congratulations!
+You've successfully run and modified your React Native app! 🚀
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### Next Steps
+- If you want to integrate this into an existing app, check out the [Integration Guide](https://reactnative.dev/docs/integration-with-existing-apps).
+- Learn more from the [React Native Docs](https://reactnative.dev/docs/getting-started).
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## 📦 Installed Dependencies
+Here are the major dependencies used in this project:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+### **Core Dependencies**
+- `react`
+- `react-native`
 
-## Congratulations! :tada:
+### **Navigation**
+- `@react-navigation/native`
+- `@react-navigation/stack`
+- `@react-navigation/bottom-tabs`
+- `@react-navigation/drawer`
+- `@react-navigation/material-top-tabs`
+- `@react-navigation/native-stack`
 
-You've successfully run and modified your React Native App. :partying_face:
+### **UI & Animations**
+- `react-native-vector-icons`
+- `react-native-gesture-handler`
+- `react-native-reanimated`
+- `react-native-safe-area-context`
+- `react-native-screens`
+- `react-native-pager-view`
 
-### Now what?
+### **Development & Tooling**
+- `eslint`
+- `prettier`
+- `jest`
+- `typescript`
+- `@babel/core`
+- `@react-native-community/cli`
+- `@types/react`
+- `@types/jest`
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+For the complete list of dependencies, refer to [`package.json`](./package.json).
 
-# Troubleshooting
+## 📘 Additional Resources
+- [React Native Website](https://reactnative.dev)
+- [Getting Started Guide](https://reactnative.dev/docs/environment-setup)
+- [Learn the Basics](https://reactnative.dev/docs/getting-started)
+- [React Navigation](https://reactnavigation.org/)
+- [Jest Testing Framework](https://jestjs.io/)
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## 🛠 Troubleshooting
+If you're facing issues, check the [Troubleshooting Guide](https://reactnative.dev/docs/troubleshooting).
 
-# Learn More
+---
+If you encounter any issues or have suggestions, feel free to raise an issue in the repository. 🚀
 
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
