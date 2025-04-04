@@ -47,7 +47,7 @@
     "prettier": "2.8.8",
     "react-native-eject": "^1.0.2",
     "react-test-renderer": "19.0.0",
-    "typescript": "5.0.4"
+    "typescript": "5.8.2"
   },
   "engines": {
     "node": ">=18"
