@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import {FONT_SIZE} from '../../../theme/Fonts';
+import { vwPercentage } from '../../../utils';
 
 export const useSignupStyles = () => {
   const {colors} = useTheme();
@@ -13,6 +14,9 @@ export const useSignupStyles = () => {
         title: {
           marginBottom: 40,
           textAlign: 'center',
+        },
+        nameInput: {
+          width: vwPercentage(30),
         },
         checkboxContainer: {
           flexDirection: 'row',

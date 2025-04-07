@@ -1,13 +1,21 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Alert, Pressable} from 'react-native';
+import React from 'react';
+import {View, TouchableOpacity, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 
-import {useAuth} from '../../../hooks';
+import {useAuth, useValidationSchema} from '../../../hooks';
 import {ROUTES} from '../../../navigations';
-import {AppButton, AppInput, AppText} from '../../../components';
+import {
+  AppButton,
+  AppInput,
+  AppText,
+  KeyboardAvoidingWrapper,
+} from '../../../components';
 import {useAppStyles, useTheme} from '../../../theme';
 import {useLoginStyles} from './loginStyles';
+import {LoginFormData} from '../../../types';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -15,61 +23,32 @@ const Login = () => {
   const {theme, switchTheme} = useTheme();
   const appStyles = useAppStyles();
   const loginStyles = useLoginStyles();
+  const {loginSchema} = useValidationSchema();
 
-  const [loginType, setLoginType] = useState<'email' | 'phone'>('email');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<LoginFormData>({
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+    resolver: yupResolver(loginSchema),
+  });
 
-  const switchLoginType = (type: 'email' | 'phone') => {
-    setErrors({});
-    setLoginType(type);
-  };
-
-  const handleLogin = async () => {
-    let valid = true;
-    let newErrors: {[key: string]: string} = {};
-
-    if (loginType === 'email' && !email) {
-      newErrors.email = 'Please enter a valid email';
-      valid = false;
-    } else if (loginType === 'phone' && !phoneNumber) {
-      newErrors.phoneNumber = 'Please enter a valid phone number';
-      valid = false;
-    }
-
-    if (!password) {
-      newErrors.password = 'Please enter your password';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-
-    if (!valid) {
-      return;
-    }
-
-    const userData = {
-      name: loginType === 'email' ? email : phoneNumber,
-      email: loginType === 'email' ? email : '',
-    };
-
-    try {
-      await login(userData);
-      Alert.alert('Login Successful', `Logged in with: ${userData.name}`);
-    } catch (error) {
-      Alert.alert('Login Failed', 'Invalid credentials, please try again.');
-    }
+  const onSubmit = (data: LoginFormData) => {
+    login(data);
   };
 
   return (
-    <View style={appStyles.container}>
+    <KeyboardAvoidingWrapper containerStyle={appStyles.container}>
       {/* Theme Switcher */}
       <View style={loginStyles.themeSwitcher}>
         <TouchableOpacity
-          onPress={() => switchTheme(theme === 'dark' ? 'light' : 'dark')}>
+          onPress={() => switchTheme(theme === 'dark' ? 'light' : 'dark')}
+          accessibilityLabel="Switch theme">
           <Icon
             name={theme === 'dark' ? 'sun-o' : 'moon-o'}
             size={30}
@@ -80,90 +59,71 @@ const Login = () => {
 
       <AppText style={loginStyles.title}>Welcome Back!</AppText>
 
-      {/* Switch between Email & Phone Login */}
-      <View style={loginStyles.switchContainer}>
-        <TouchableOpacity
-          style={[
-            loginStyles.switchButton,
-            loginType === 'email' && loginStyles.activeSwitch,
-          ]}
-          onPress={() => switchLoginType('email')}>
-          <AppText
-            style={[
-              loginStyles.switchText,
-              loginType === 'email' && loginStyles.activeSwitchText,
-            ]}>
-            Email
-          </AppText>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            loginStyles.switchButton,
-            loginType === 'phone' && loginStyles.activeSwitch,
-          ]}
-          onPress={() => switchLoginType('phone')}>
-          <AppText
-            style={[
-              loginStyles.switchText,
-              loginType === 'phone' && loginStyles.activeSwitchText,
-            ]}>
-            Phone
-          </AppText>
-        </TouchableOpacity>
-      </View>
+      {/* Email Input */}
+      <Controller
+        control={control}
+        name="email"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Enter your email"
+            leftIcon="envelope"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            error={errors.email?.message}
+            label="Email"
+          />
+        )}
+      />
 
-      {/* Input Fields */}
-      {loginType === 'email' ? (
-        <AppInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Enter your email"
-          leftIcon="envelope"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          error={errors.email}
-          label="Email"
-        />
-      ) : (
-        <AppInput
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          placeholder="Enter your phone number"
-          leftIcon="phone"
-          keyboardType="phone-pad"
-          error={errors.phoneNumber}
-          label="Phone Number"
-        />
-      )}
-
-      <AppInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        leftIcon="lock"
-        secureTextEntry
-        error={errors.password}
-        label="Password"
+      {/* Password Input */}
+      <Controller
+        control={control}
+        name="password"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Password"
+            leftIcon="lock"
+            secureTextEntry
+            error={errors.password?.message}
+            label="Password"
+          />
+        )}
       />
 
       {/* Remember Me & Forgot Password */}
       <View style={loginStyles.row}>
-        <View style={loginStyles.rememberMe}>
-          <Pressable onPress={() => setRememberMe(!rememberMe)}>
-            <Icon
-              name={!rememberMe ? 'square-o' : 'check-square-o'}
-              size={20}
-            />
-          </Pressable>
-          <AppText style={loginStyles.rememberText}>Remember Me</AppText>
-        </View>
-        <TouchableOpacity>
+        <Controller
+          control={control}
+          name="rememberMe"
+          render={({field: {onChange, value}}) => (
+            <View style={loginStyles.rememberMe}>
+              <Pressable
+                onPress={() => onChange(!value)}>
+                <Icon name={value ? 'check-square-o' : 'square-o'} size={20} />
+              </Pressable>
+              <AppText style={loginStyles.rememberText}>Remember Me</AppText>
+            </View>
+          )}
+        />
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate(ROUTES.FORGOT_PASSWORD)}>
           <AppText style={loginStyles.forgotPassword}>Forgot Password?</AppText>
         </TouchableOpacity>
       </View>
 
       {/* Login Button */}
-      <AppButton title="Login" onPress={handleLogin} loading={loading} />
+      <AppButton
+        title="Login"
+        onPress={handleSubmit(onSubmit)}
+        loading={loading}
+      />
 
       {/* Signup Link */}
       <AppText variant="label" style={loginStyles.signupText}>
@@ -175,7 +135,7 @@ const Login = () => {
           Sign Up
         </AppText>
       </AppText>
-    </View>
+    </KeyboardAvoidingWrapper>
   );
 };
 

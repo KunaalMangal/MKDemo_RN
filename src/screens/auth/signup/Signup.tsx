@@ -1,139 +1,220 @@
-import React, {useState} from 'react';
-import {View, Alert, Pressable} from 'react-native';
+import React from 'react';
+import {View, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 
-import {useAuth} from '../../../hooks';
-import {AppButton, AppInput, AppText} from '../../../components';
+import {useAuth, useValidationSchema} from '../../../hooks';
+import {
+  AppButton,
+  AppInput,
+  AppText,
+  KeyboardAvoidingWrapper,
+} from '../../../components';
 import {ROUTES} from '../../../navigations';
 import {useAppStyles} from '../../../theme';
-import { useSignupStyles } from './signupStyles';
+import {useSignupStyles} from './signupStyles';
+import {SignupFormData} from '../../../types';
 
 const Signup = () => {
   const navigation = useNavigation();
-  const {login, loading} = useAuth();
+  const {loading} = useAuth();
   const appStyles = useAppStyles();
   const signupStyles = useSignupStyles();
+  const {signupSchema} = useValidationSchema();
 
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<SignupFormData>({
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      mobile: '',
+      address: {
+        address: '',
+        latitude: 0,
+        longitude: 0,
+      },
+      password: '',
+      confirm_password: '',
+      accept_terms: false,
+    },
+    resolver: yupResolver(signupSchema),
+  });
 
-  const handleSignup = () => {
-    let valid = true;
-    let newErrors: {[key: string]: string} = {};
-
-    if (!email) {
-      newErrors.email = 'Please enter a valid email';
-      valid = false;
-    }
-    if (!phoneNumber) {
-      newErrors.phoneNumber = 'Please enter a valid phone number';
-      valid = false;
-    }
-    if (!password) {
-      newErrors.password = 'Please enter your password';
-      valid = false;
-    }
-    if (!name) {
-      newErrors.name = 'Please enter your name';
-      valid = false;
-    }
-    if (!termsAccepted) {
-      newErrors.termsAccepted = 'Please accept the terms and conditions';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-
-    if (!valid) {return;}
-
-    const userData = {
-      email,
-      phoneNumber,
-      password,
-      name,
-    };
-
-    login(userData);
-
-    Alert.alert('Signup Attempt', `Email: ${email}\nPhone: ${phoneNumber}`);
+  const onSubmit = (data: SignupFormData) => {
+    console.log('Signup data:', data);
   };
 
   return (
-    <View style={appStyles.container}>
+    <KeyboardAvoidingWrapper containerStyle={appStyles.container}>
       <AppText variant="h4" style={signupStyles.title}>
         Signup
       </AppText>
 
-      <AppInput
-        value={name}
-        onChangeText={setName}
-        placeholder="Name"
-        leftIcon="user"
-        error={errors.name}
-      />
-
-      <AppInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        leftIcon="envelope"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        error={errors.email}
-      />
-
-      <AppInput
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-        placeholder="Phone Number"
-        leftIcon="phone"
-        keyboardType="phone-pad"
-        error={errors.phoneNumber}
-      />
-
-      <AppInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        leftIcon="lock"
-        secureTextEntry
-        error={errors.password}
-      />
-
-      <View style={signupStyles.checkboxContainer}>
-        <Pressable onPress={() => setTermsAccepted(!termsAccepted)}>
-          <Icon
-            name={!termsAccepted ? 'square-o' : 'check-square-o'}
-            size={20}
-          />
-        </Pressable>
-        <AppText style={signupStyles.checkboxText}>
-          I accept the terms and conditions
-        </AppText>
+      <View style={appStyles.row}>
+        <Controller
+          control={control}
+          name="first_name"
+          render={({field: {onChange, onBlur, value}}) => (
+            <AppInput
+              style={signupStyles.nameInput}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              label="First Name"
+              placeholder="First Name"
+              leftIcon="user"
+              error={errors.first_name?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="last_name"
+          render={({field: {onChange, onBlur, value}}) => (
+            <AppInput
+              style={signupStyles.nameInput}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              label="Last Name"
+              placeholder="Last Name"
+              leftIcon="user"
+              error={errors.last_name?.message}
+            />
+          )}
+        />
       </View>
-      {errors.termsAccepted && (
-        <AppText variant="error">{errors.termsAccepted}</AppText>
+
+      <Controller
+        control={control}
+        name="email"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            label="Email"
+            placeholder="Enter your email"
+            leftIcon="envelope"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            error={errors.email?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="mobile"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            label="Mobile Number"
+            placeholder="Mobile Number"
+            leftIcon="phone"
+            keyboardType="phone-pad"
+            autoCapitalize="none"
+            error={errors.mobile?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="address.address"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            label="Address"
+            placeholder="Address"
+            leftIcon="home"
+            error={
+              errors?.address?.message ||
+              errors?.address?.latitude?.message ||
+              errors?.address?.longitude?.message
+            }
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="password"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            label="Password"
+            placeholder="Password"
+            leftIcon="lock"
+            secureTextEntry
+            error={errors.password?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="confirm_password"
+        render={({field: {onChange, onBlur, value}}) => (
+          <AppInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            label="Confirm Password"
+            placeholder="Confirm Password"
+            leftIcon="lock"
+            secureTextEntry
+            error={errors?.confirm_password?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="accept_terms"
+        render={({field: {value, onChange}}) => (
+          <View style={signupStyles.checkboxContainer}>
+            <Pressable onPress={() => onChange(!value)}>
+              <Icon name={value ? 'check-square-o' : 'square-o'} size={20} />
+            </Pressable>
+            <AppText style={signupStyles.checkboxText}>
+              I accept the terms and conditions
+            </AppText>
+          </View>
+        )}
+      />
+      {errors?.accept_terms && (
+        <AppText variant="error">{errors.accept_terms.message}</AppText>
       )}
 
-      <AppButton title="Signup" onPress={handleSignup} loading={loading} />
+      <AppButton
+        title="Signup"
+        onPress={handleSubmit(onSubmit)}
+        loading={loading}
+      />
 
       <AppText style={signupStyles.loginText}>
         Already have an account?{' '}
         <AppText
           variant="label"
           style={signupStyles.loginLink}
-          onPress={() => {
-            navigation.navigate(ROUTES.LOGIN);
-          }}>
+          onPress={() => navigation.navigate(ROUTES.LOGIN)}>
           Login
         </AppText>
       </AppText>
-    </View>
+    </KeyboardAvoidingWrapper>
   );
 };
 
