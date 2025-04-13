@@ -1,4 +1,5 @@
 const Screens = {
+  ONBOARDING: 'ONBOARDING',
   AUTH: 'AUTH',
   APP: 'APP',
   BOTTOMTAB: 'BOTTOMTAB',
