@@ -5,25 +5,18 @@
 
 import React from 'react';
 import {
-  Platform,
-  SafeAreaView as SafeAreaViewIOS,
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   useColorScheme,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {
-  SafeAreaProvider,
-  SafeAreaView as SafeAreaViewAndroid,
-} from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {AppRouter} from './src/navigations';
 import {ThemeProvider} from './src/theme';
-
-const SafeAreaView =
-  Platform.OS === 'ios' ? SafeAreaViewIOS : SafeAreaViewAndroid;
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
