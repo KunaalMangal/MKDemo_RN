@@ -1,4 +1,5 @@
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -7,13 +8,20 @@ import {
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {useTheme, themes, ThemeType, FONT_FAMILIES} from '../theme';
+import {
+  useTheme,
+  themes,
+  ThemeType,
+  FONT_FAMILIES,
+  useAppStyles,
+} from '../theme';
 import {AuthProvider} from '../context';
 import ROUTES from './Routes';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import {useAuth} from '../hooks';
-import {SpinnerLoader} from '../components';
+import {SafeAreaView, SpinnerLoader} from '../components';
+import {OnBoarding} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,9 +65,16 @@ const getNavigationTheme = (
 };
 
 const RootStack = () => {
+  const isOnboardingDone = false;
   const {isLoggedIn} = useAuth();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      {/* Onboarding Stack */}
+      {!isOnboardingDone ? (
+        <Stack.Screen name={ROUTES.ONBOARDING} component={OnBoarding} />
+      ) : null}
+
+      {/* If user is not logged in, show auth stack */}
       {!isLoggedIn ? (
         <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
       ) : (
@@ -71,14 +86,23 @@ const RootStack = () => {
 
 const Router = () => {
   const {theme, colors} = useTheme();
+  const appStyles = useAppStyles();
   const navigationTheme = getNavigationTheme(theme, colors);
 
   return (
-    <AuthProvider>
-      <NavigationContainer theme={navigationTheme} fallback={<SpinnerLoader />}>
-        <RootStack />
-      </NavigationContainer>
-    </AuthProvider>
+    <SafeAreaView style={appStyles.rootView}>
+      <StatusBar
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.white}
+      />
+      <AuthProvider>
+        <NavigationContainer
+          theme={navigationTheme}
+          fallback={<SpinnerLoader />}>
+          <RootStack />
+        </NavigationContainer>
+      </AuthProvider>
+    </SafeAreaView>
   );
 };
 

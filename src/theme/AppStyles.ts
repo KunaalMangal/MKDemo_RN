@@ -12,6 +12,10 @@ export const useAppStyles = () => {
     () =>
       StyleSheet.create({
         // ==== GENERAL LAYOUT ====
+        rootView: {
+          flex: 1,
+          backgroundColor: '#f5f5f5',
+        },
         container: {
           flex: 1,
           justifyContent: 'center',

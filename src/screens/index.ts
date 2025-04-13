@@ -1,3 +1,6 @@
+// OnBoarding Screens
+export {default as OnBoarding} from './onboarding/OnBoarding';
+
 // Auth Screens
 export {default as Login} from './auth/login/Login';
 export {default as Signup} from './auth/signup/Signup';
