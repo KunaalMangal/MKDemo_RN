@@ -65,12 +65,16 @@ const getNavigationTheme = (
 };
 
 const RootStack = () => {
-  const isOnboardingDone = false;
-  const {isLoggedIn} = useAuth();
+  const {isLoggedIn, appIntroDone, loading} = useAuth();
+
+  if (loading) {
+    return <SpinnerLoader />;
+  }
+
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {/* Onboarding Stack */}
-      {!isOnboardingDone ? (
+      {!appIntroDone ? (
         <Stack.Screen name={ROUTES.ONBOARDING} component={OnBoarding} />
       ) : null}
 

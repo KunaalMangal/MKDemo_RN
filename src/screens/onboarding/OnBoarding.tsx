@@ -14,6 +14,7 @@ import {AppButton, AppText} from '../../components';
 import {ROUTES} from '../../navigations';
 import {IMAGES} from '../../constants';
 import {onBoardingStyles} from './styles';
+import {appStorage, STORAGE_KEYS} from '../../services';
 
 const onboardingData = [
   {
@@ -41,6 +42,7 @@ export default function OnBoarding() {
   const [currentPage, setCurrentPage] = useState(0);
 
   const completeOnboarding = async () => {
+    appStorage.setItem(STORAGE_KEYS.ONBOARDING_SHOWN, true);
     navigation.replace(ROUTES.AUTH);
   };
 
