@@ -1,8 +1,7 @@
-import {AppConfigType} from '../types';
-
 import {displayName} from '../../app.json';
+import {IAppConfig} from '../types';
 
-export const AppConfig: AppConfigType = {
+export const AppConfig: IAppConfig = {
   appId: 'com.example.myapp',
   appName: displayName,
   appVersion: '1.0.0',

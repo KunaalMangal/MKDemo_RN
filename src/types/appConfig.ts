@@ -2,7 +2,7 @@ export type LogLevel = 'info' | 'warn' | 'error';
 export type ThemeType = 'light' | 'dark';
 export type LanguageCode = 'en' | 'es' | 'fr' | string;
 
-export interface AppConfigType {
+export interface IAppConfig{
   // Basic Info
   appId: string;
   appName: string;

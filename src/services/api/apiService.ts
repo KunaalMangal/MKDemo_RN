@@ -6,6 +6,8 @@ import axios, {
 import {Platform} from 'react-native';
 
 import {AppConfig} from '../../config';
+import {appStorage} from '../storage/storageService';
+import {STORAGE_KEYS} from '../storage/storageKeys';
 
 const mkDemoApi = axios.create({
   baseURL: AppConfig.apiUrl,
@@ -28,7 +30,7 @@ const interceptorsRequestFullfilled = async (
   config: InternalAxiosRequestConfig,
 ): Promise<InternalAxiosRequestConfig> => {
   try {
-    const token = '';
+    const token = appStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;

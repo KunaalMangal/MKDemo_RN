@@ -1,17 +1,7 @@
 import React, {createContext, useState, useEffect, ReactNode} from 'react';
 
-interface User {
-  email: string;
-  password: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  isLoggedIn: boolean;
-  login: (userData: User) => void;
-  logout: () => void;
-  loading: boolean;
-}
+import {appStorage, STORAGE_KEYS} from '../services';
+import {AuthContextType, ILOGIN, IUser} from '../types';
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,
@@ -22,25 +12,57 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
+  const [appIntroDone, setAppIntroDone] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const login = async (userData: User) => {
-    setUser(userData);
+  const onLogin = (data: ILOGIN) => {
+    setLoading(true);
+    appStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, data.token);
+    appStorage.setItem(STORAGE_KEYS.CURRENT_USER, data.user);
+    setCurrentUser(data.user);
+    setLoading(false);
   };
 
-  const logout = async () => {
-    setUser(null);
+  const onLogout = () => {
+    setLoading(true);
+    appStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+    appStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    setCurrentUser(null);
+    setLoading(false);
+  };
+
+  const checkUserLoggedIn = () => {
+    const appIntro = appStorage.getItem(STORAGE_KEYS.ONBOARDING_SHOWN);
+    const user = appStorage.getItem<IUser>(STORAGE_KEYS.CURRENT_USER);
+
+    if (appIntro === 'true' || appIntro === true) {
+      setAppIntroDone(true);
+    }
+
+    if (user) {
+      setCurrentUser(user);
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(false);
+    checkUserLoggedIn();
   }, []);
 
-  const isLoggedIn = user !== null;
+  const isLoggedIn = currentUser !== null;
 
   return (
-    <AuthContext.Provider value={{user, isLoggedIn, login, logout, loading}}>
+    <AuthContext.Provider
+      value={{
+        appIntroDone,
+        currentUser,
+        isLoggedIn,
+        onLogin,
+        onLogout,
+        loading,
+      }}>
       {children}
     </AuthContext.Provider>
   );
