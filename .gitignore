@@ -75,3 +75,9 @@ yarn.lock
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# dotenv environment variables file
+.env.development
+.env.production
+.env.staging
+ios/Secrets.xconfig
