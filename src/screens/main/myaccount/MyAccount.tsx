@@ -1,16 +1,14 @@
 import React from 'react';
 import {View, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
 import {styles} from './styles';
-import {ROUTES} from '../../../navigations';
+import {navigate, ROUTES} from '../../../navigations';
 import {useAuth} from '../../../hooks';
 import {AppButton, AppText} from '../../../components';
 import {useAppStyles} from '../../../theme';
 
 const MyAccount = () => {
-  const navigation = useNavigation();
-  const {logout} = useAuth();
+  const {onLogout} = useAuth();
   const appStyles = useAppStyles();
 
   return (
@@ -46,12 +44,12 @@ const MyAccount = () => {
         </View>
         <AppButton
           title="Edit Account"
-          onPress={() => navigation.navigate(ROUTES.HOME)}
+          onPress={() => navigate(ROUTES.HOME)}
         />
         <AppButton
           title="Logout"
           style={styles.logoutButton}
-          onPress={logout}
+          onPress={onLogout}
         />
       </View>
     </View>

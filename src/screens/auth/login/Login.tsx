@@ -19,7 +19,7 @@ import {LoginFormData} from '../../../types';
 
 const Login = () => {
   const navigation = useNavigation();
-  const {login, loading} = useAuth();
+  const {onLogin, loading} = useAuth();
   const {theme, switchTheme} = useTheme();
   const appStyles = useAppStyles();
   const loginStyles = useLoginStyles();
@@ -39,7 +39,7 @@ const Login = () => {
   });
 
   const onSubmit = (data: LoginFormData) => {
-    login(data);
+    onLogin({token: '123', user: {...data}});
   };
 
   return (

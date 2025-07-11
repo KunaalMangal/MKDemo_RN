@@ -4,18 +4,21 @@
  */
 
 import React from 'react';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import {AppRouter} from './src/navigations';
-import {ThemeProvider} from './src/theme';
+import { AppRouter } from './src/navigations';
+import { ThemeProvider } from './src/theme';
+import { AuthProvider } from './src/context';
 
 function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView>
       <ThemeProvider>
         <SafeAreaProvider>
-          <AppRouter />
+          <AuthProvider>
+            <AppRouter />
+          </AuthProvider>
         </SafeAreaProvider>
       </ThemeProvider>
     </GestureHandlerRootView>

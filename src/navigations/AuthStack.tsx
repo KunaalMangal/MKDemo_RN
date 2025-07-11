@@ -5,8 +5,9 @@ import {
 } from '@react-navigation/native-stack';
 
 import ROUTES from './Routes';
-import {Login, Signup} from '../screens';
-import {AppHeader} from '../components';
+import { Login, Signup } from '../screens';
+import { NativeStackOptions } from './NavigationOptions';
+import { useTheme } from '../theme';
 
 interface AuthRoutes {
   name: keyof typeof ROUTES;
@@ -16,30 +17,36 @@ interface AuthRoutes {
 
 const Stack = createNativeStackNavigator();
 
-const authRoutes: AuthRoutes[] = [
-  {
-    name: ROUTES.LOGIN,
-    component: Login,
-    options: {
-      headerShown: false,
-    },
-  },
-  {
-    name: ROUTES.SIGNUP,
-    component: Signup,
-    options: {
-      headerShown: true,
-      header: props => <AppHeader title="Signup" {...props} />,
-    },
-  },
-];
-
 const AuthStack: React.FC = () => {
+  const { colors } = useTheme();
+
+  const authRoutes: AuthRoutes[] = [
+    {
+      name: ROUTES.LOGIN,
+      component: Login,
+      options: {
+        headerShown: true,
+        headerTitle: 'Login',
+        statusBarAnimation: 'slide',
+        headerStyle: {
+          backgroundColor: colors.primary,
+        },
+      },
+    },
+    {
+      name: ROUTES.SIGNUP,
+      component: Signup,
+      options: {
+        headerShown: true,
+        headerTitle: 'Sign up',
+        headerStyle: {
+          backgroundColor: colors.primary,
+        },
+      },
+    },
+  ];
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Stack.Navigator screenOptions={NativeStackOptions}>
       {authRoutes.map(route => (
         <Stack.Screen
           key={route.name}

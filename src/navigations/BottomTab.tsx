@@ -33,10 +33,6 @@ const bottomTabRoutes: BottomTabRoutes[] = [
     name: ROUTES.MYACCOUNT,
     component: MyAccount,
     icon: 'user',
-    options: {
-      headerShown: true,
-      header: props => <AppHeader title="My Account" {...props} />,
-    },
   },
 ];
 
