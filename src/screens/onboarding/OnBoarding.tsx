@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import {View, Pressable, Image} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Pressable, Image } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import Animated, {
   FadeIn,
@@ -7,14 +7,12 @@ import Animated, {
   SlideInRight,
   SlideOutLeft,
 } from 'react-native-reanimated';
-import {useNavigation} from '@react-navigation/native';
 
-import {useAppStyles, useTheme} from '../../theme';
-import {AppButton, AppText} from '../../components';
-import {ROUTES} from '../../navigations';
-import {IMAGES} from '../../constants';
-import {onBoardingStyles} from './styles';
-import {appStorage, STORAGE_KEYS} from '../../services';
+import { useAppStyles, useTheme } from '../../theme';
+import { AppButton, AppText } from '../../components';
+import { IMAGES } from '../../constants';
+import { onBoardingStyles } from './styles';
+import { useAuth } from '../../hooks';
 
 const onboardingData = [
   {
@@ -35,22 +33,17 @@ const onboardingData = [
 ];
 
 export default function OnBoarding() {
-  const {colors} = useTheme();
+  const { onCompleteIntro } = useAuth();
+  const { colors } = useTheme();
   const appStyles = useAppStyles();
-  const navigation = useNavigation();
   const pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
-
-  const completeOnboarding = async () => {
-    appStorage.setItem(STORAGE_KEYS.ONBOARDING_SHOWN, true);
-    navigation.replace(ROUTES.AUTH);
-  };
 
   const handleNext = () => {
     if (currentPage < onboardingData.length - 1) {
       pagerRef.current?.setPage(currentPage + 1);
     } else {
-      completeOnboarding();
+      onCompleteIntro();
     }
   };
 
@@ -70,7 +63,7 @@ export default function OnBoarding() {
       {currentPage < onboardingData.length - 1 && (
         <AppButton
           title="Skip"
-          onPress={completeOnboarding}
+          onPress={onCompleteIntro}
           style={onBoardingStyles.skipButton}
         />
       )}
@@ -80,13 +73,15 @@ export default function OnBoarding() {
         style={onBoardingStyles.pagerView}
         initialPage={0}
         ref={pagerRef}
-        onPageSelected={e => setCurrentPage(e.nativeEvent.position)}>
+        onPageSelected={e => setCurrentPage(e.nativeEvent.position)}
+      >
         {onboardingData.map((item, index) => (
           <View key={index} style={onBoardingStyles.page}>
             <Animated.View
               entering={FadeIn.duration(400)}
               exiting={FadeOut.duration(300)}
-              style={onBoardingStyles.animatedContent}>
+              style={onBoardingStyles.animatedContent}
+            >
               <View style={appStyles.card}>
                 <Image
                   source={item.image}
