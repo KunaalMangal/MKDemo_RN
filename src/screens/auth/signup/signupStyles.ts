@@ -11,10 +11,6 @@ export const useSignupStyles = () => {
   const signupStyles = useMemo(
     () =>
       StyleSheet.create({
-        title: {
-          marginBottom: 40,
-          textAlign: 'center',
-        },
         nameInput: {
           width: vwPercentage(30),
         },

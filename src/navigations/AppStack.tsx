@@ -4,9 +4,10 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 
-import {Home, MyAccount} from '../screens';
+import { Home, MyAccount } from '../screens';
 import ROUTES from './Routes';
 import BottomTab from './BottomTab';
+import { NativeStackOptions } from './NavigationOptions';
 
 const Stack = createNativeStackNavigator();
 interface AppRoutes {
@@ -32,10 +33,7 @@ const appRoutes: AppRoutes[] = [
 
 const AppStack: React.FC = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Stack.Navigator screenOptions={NativeStackOptions}>
       {appRoutes.map(route => (
         <Stack.Screen
           key={route.name}

@@ -1,33 +1,31 @@
 import React from 'react';
-import {View, Pressable} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { View, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Controller, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import {useAuth, useValidationSchema} from '../../../hooks';
+import { useAuth, useValidationSchema } from '../../../hooks';
 import {
   AppButton,
   AppInput,
   AppText,
   KeyboardAvoidingWrapper,
 } from '../../../components';
-import {ROUTES} from '../../../navigations';
-import {useAppStyles} from '../../../theme';
-import {useSignupStyles} from './signupStyles';
-import {SignupFormData} from '../../../types';
+import { reset, ROUTES } from '../../../navigations';
+import { useAppStyles } from '../../../theme';
+import { useSignupStyles } from './signupStyles';
+import { SignupFormData } from '../../../types';
 
 const Signup = () => {
-  const navigation = useNavigation();
-  const {loading} = useAuth();
+  const { loading } = useAuth();
   const appStyles = useAppStyles();
   const signupStyles = useSignupStyles();
-  const {signupSchema} = useValidationSchema();
+  const { signupSchema } = useValidationSchema();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<SignupFormData>({
     defaultValues: {
       first_name: '',
@@ -52,15 +50,11 @@ const Signup = () => {
 
   return (
     <KeyboardAvoidingWrapper containerStyle={appStyles.container}>
-      <AppText variant="h4" style={signupStyles.title}>
-        Signup
-      </AppText>
-
       <View style={appStyles.row}>
         <Controller
           control={control}
           name="first_name"
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <AppInput
               style={signupStyles.nameInput}
               value={value}
@@ -76,7 +70,7 @@ const Signup = () => {
         <Controller
           control={control}
           name="last_name"
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <AppInput
               style={signupStyles.nameInput}
               value={value}
@@ -94,7 +88,7 @@ const Signup = () => {
       <Controller
         control={control}
         name="email"
-        render={({field: {onChange, onBlur, value}}) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <AppInput
             value={value}
             onChangeText={onChange}
@@ -112,7 +106,7 @@ const Signup = () => {
       <Controller
         control={control}
         name="mobile"
-        render={({field: {onChange, onBlur, value}}) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <AppInput
             value={value}
             onChangeText={onChange}
@@ -130,7 +124,7 @@ const Signup = () => {
       <Controller
         control={control}
         name="address.address"
-        render={({field: {onChange, onBlur, value}}) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <AppInput
             value={value}
             onChangeText={onChange}
@@ -150,7 +144,7 @@ const Signup = () => {
       <Controller
         control={control}
         name="password"
-        render={({field: {onChange, onBlur, value}}) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <AppInput
             value={value}
             onChangeText={onChange}
@@ -167,7 +161,7 @@ const Signup = () => {
       <Controller
         control={control}
         name="confirm_password"
-        render={({field: {onChange, onBlur, value}}) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <AppInput
             value={value}
             onChangeText={onChange}
@@ -184,7 +178,7 @@ const Signup = () => {
       <Controller
         control={control}
         name="accept_terms"
-        render={({field: {value, onChange}}) => (
+        render={({ field: { value, onChange } }) => (
           <View style={signupStyles.checkboxContainer}>
             <Pressable onPress={() => onChange(!value)}>
               <Icon name={value ? 'check-square-o' : 'square-o'} size={20} />
@@ -210,7 +204,8 @@ const Signup = () => {
         <AppText
           variant="label"
           style={signupStyles.loginLink}
-          onPress={() => navigation.navigate(ROUTES.LOGIN)}>
+          onPress={() => reset(ROUTES.LOGIN)}
+        >
           Login
         </AppText>
       </AppText>

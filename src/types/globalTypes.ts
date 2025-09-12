@@ -32,10 +32,12 @@ export interface ILOGIN {
 }
 
 export interface AuthContextType {
-  appIntroDone: boolean;
-  currentUser: IUser | null;
+  appIntro: boolean;
   isLoggedIn: boolean;
+  currentUser: IUser | null;
+  loading: boolean;
+
+  onCompleteIntro: () => void;
   onLogin: (data: ILOGIN) => void;
   onLogout: () => void;
-  loading: boolean;
 }
