@@ -1,6 +1,6 @@
-import {MMKV} from 'react-native-mmkv';
+import { createMMKV } from 'react-native-mmkv';
 
-export const storage = new MMKV({
+export const storage = createMMKV({
   id: 'secure-storage',
   encryptionKey: 'secure-storage-key',
 });
@@ -16,7 +16,7 @@ export const appStorage = {
   setItem: <T extends SupportedTypes>(key: string, value: T): boolean => {
     try {
       if (value === null) {
-        storage.delete(key);
+        storage.remove(key);
         return true;
       }
 
@@ -44,7 +44,7 @@ export const appStorage = {
         throw new Error(`Unsupported type for key: ${key}`);
       }
 
-      const payload = JSON.stringify({__type: type, value: storedValue});
+      const payload = JSON.stringify({ __type: type, value: storedValue });
       storage.set(key, payload);
       return true;
     } catch (error) {
@@ -59,11 +59,15 @@ export const appStorage = {
       const buffer = storage.getBuffer(key);
       if (buffer) {
         const type = storage.getString(`${key}:__type`);
-        if (type === 'buffer') {return buffer as T;}
+        if (type === 'buffer') {
+          return buffer as T;
+        }
       }
 
       const raw = storage.getString(key);
-      if (!raw) {return null;}
+      if (!raw) {
+        return null;
+      }
 
       const parsed = JSON.parse(raw) as StoredWithType<any>;
 
@@ -94,8 +98,8 @@ export const appStorage = {
 
   removeItem: (key: string): boolean => {
     try {
-      storage.delete(key);
-      storage.delete(`${key}:__type`);
+      storage.remove(key);
+      storage.remove(`${key}:__type`);
       return true;
     } catch (error) {
       console.error(`Storage Error [removeItem]: ${key}`, error);
