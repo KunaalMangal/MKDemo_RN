@@ -21,7 +21,7 @@
     "@react-navigation/stack": "^7.6.5",
     "axios": "^1.13.1",
     "react": "19.1.1",
-    "react-hook-form": "^7.65.0",
+    "react-hook-form": "^7.66.1",
     "react-native": "0.82.1",
     "react-native-gesture-handler": "^2.29.1",
     "react-native-mmkv": "^4.0.0",
