@@ -19,7 +19,7 @@ export const useAppStyles = () => {
         container: {
           flex: 1,
           justifyContent: 'center',
-          padding: vp(20),
+          padding: vp(10),
           backgroundColor: colors.light,
         },
         centeredView: {
