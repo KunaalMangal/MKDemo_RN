@@ -1,132 +1,426 @@
-# MKDemo React Native App
+# MKDemo - React Native Cross-Platform Mobile App
 
-## 📌 Introduction
-Welcome to the **MKDemo React Native App**! This is a demo application built to demonstrate a sample project using React Native. It showcases core functionalities, navigation, and UI components while maintaining modern development standards.
+A modern, feature-rich React Native application demonstrating best practices in mobile development with authentication, navigation, form handling, and component architecture.
 
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## 📋 Table of Contents
 
-## 📖 Table of Contents
-- [Introduction](#-introduction)
-- [Requirements](#-requirements)
-- [Getting Started](#-getting-started)
-- [Installed Dependencies](#-installed-dependencies)
-- [Setup and Run](#-setup-and-run)
-- [Additional Resources](#-additional-resources)
-- [Troubleshooting](#-troubleshooting)
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Author](#author)
+- [License](#license)
 
-## ✅ Requirements
-Before setting up the project, ensure you have the following installed:
+## Overview
 
-- [Node.js](https://nodejs.org/) (v18 or later recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [React Native CLI](https://reactnative.dev/docs/environment-setup)
-- [Android Studio](https://developer.android.com/studio) (for Android development)
-- [Xcode](https://developer.apple.com/xcode/) (for iOS development)
+MKDemo is a cross-platform React Native application built to showcase modern mobile development patterns and architecture. It provides a solid foundation for building scalable mobile applications with authentication, multi-screen navigation, form validation, and component reusability.
+
+The app supports both iOS and Android platforms and includes features like user authentication, onboarding flows, account management, customizable theming, and robust form handling.
+
+> ⚠️ **Platform Status**: This application is currently tested and optimized for **Android only**. iOS support will be added in a future update. If you encounter any issues on iOS, you may need to fix them yourself or raise an issue on the repository.
+
+## ✨ Features
+
+- **Authentication System**
+  - User login and signup
+  - Password reset functionality
+  - Secure token management
+  - Persistent session handling
+
+- **Navigation**
+  - Bottom tab navigation
+  - Drawer navigation support
+  - Stack navigation for flows
+  - Gesture-based navigation
+
+- **User Interface**
+  - Dark/Light theme support
+  - Safe area handling
+  - Reusable component library
+  - Custom vector icons
+
+- **Data Management**
+  - Form validation with React Hook Form + Yup
+  - Secure local storage (MMKV)
+  - State management with Context API and useReducer
+
+- **Developer Experience**
+  - TypeScript for type safety
+  - Jest testing setup
+  - ESLint configuration
+  - Development logging and debug mode
+
+## 🛠️ Tech Stack
+
+| Category | Technology | Version |
+|----------|-----------|---------|
+| **Framework** | React Native | 0.85.1 |
+| **Language** | TypeScript | 5.8.3 |
+| **UI Library** | React | 19.2.3 |
+| **Navigation** | React Navigation | 7.x |
+| **Form Handling** | React Hook Form | 7.66.1 |
+| **Validation** | Yup | 1.7.1 |
+
+| **Storage** | React Native MMKV | 4.3.1 |
+| **Animations** | React Native Reanimated | 4.3.0 |
+| **Gestures** | React Native Gesture Handler | 2.31.1 |
+| **Icons** | React Native Vector Icons | 10.3.0 |
+| **Testing** | Jest | 29.6.3 |
+| **Build Tool** | Metro | (bundled with RN) |
 
 ## 🚀 Getting Started
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-### Step 1: Start Metro
-Metro is the JavaScript build tool for React Native. To start the Metro dev server, run:
+### Prerequisites
 
-```sh
-# Using npm
+- **Node.js** v22.11.0 or higher
+- **npm** or **yarn** (latest recommended)
+- **React Native CLI** (v20.1.0+)
+- **Android Studio** (for Android development)
+  - Android SDK (API level 23+)
+  - Android emulator or physical device
+- **Xcode** 14+ (for iOS development on macOS)
+  - CocoaPods
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/KunaalMangal/MKDemo_RN.git
+   cd MKDemo_RN
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Install iOS pods** (macOS only)
+   ```bash
+   cd ios && pod install && cd ..
+   ```
+
+### Running the Project
+
+#### Start Metro (Development Server)
+```bash
 npm start
-
-# OR using Yarn
+# or
 yarn start
 ```
 
-### Step 2: Build and Run Your App
-With Metro running, open a new terminal and use one of the following commands:
-
-#### Android
-```sh
-# Using npm
+#### Run on Android
+```bash
+# In a new terminal (with Metro running)
 npm run android
-
-# OR using Yarn
+# or
 yarn android
 ```
 
-#### iOS
-For iOS, install CocoaPods dependencies (only required on first setup or when updating native dependencies):
+**Requirements:**
+- Android emulator running or physical device connected
+- USB debugging enabled (for physical devices)
 
-```sh
-bundle install
-bundle exec pod install
-```
-Then, run:
-
-```sh
-# Using npm
+#### Run on iOS
+```bash
+# In a new terminal (with Metro running)
 npm run ios
-
-# OR using Yarn
+# or
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the emulator or a connected device.
+**Requirements:**
+- macOS machine
+- Xcode installed
 
-### Step 3: Modify Your App
-Open `App.tsx` in your text editor and make changes. Thanks to [Fast Refresh](https://reactnative.dev/docs/fast-refresh), your app will update automatically.
+#### Run on iOS with Specific Device
+```bash
+npm run ios -- --device "iPhone 16"
+```
 
-To manually reload:
-- **Android**: Press <kbd>R</kbd> twice or select **Reload** from the **Dev Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> on Windows/Linux, <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> on macOS).
-- **iOS**: Press <kbd>R</kbd> in the iOS Simulator.
+## 📁 Project Structure
 
-## 🎉 Congratulations!
-You've successfully run and modified your React Native app! 🚀
+```
+MKDemo_RN/
+├── src/
+│   ├── assets/
+│   │   ├── fonts/              # Custom fonts
+│   │   └── images/             # Image assets
+│   ├── components/             # Reusable UI components
+│   │   ├── AppButton/
+│   │   ├── AppHeader/
+│   │   ├── AppImage/
+│   │   ├── AppInput/
+│   │   ├── AppText/
+│   │   ├── KeyboardAvoidingWrapper/
+│   │   ├── SafeAreaView/
+│   │   └── loader/
+│   ├── config/
+│   │   ├── config.ts           # App configuration
+│   │   └── index.ts
+│   ├── constants/              # App-wide constants
+│   │   ├── images.ts
+│   │   ├── regex.ts
+│   │   └── validationMsg.ts
+│   ├── context/                # React Context providers
+│   │   ├── AuthContext.tsx
+│   │   └── index.ts
+│   ├── helpers/                # Utility helper functions
+│   ├── hooks/                  # Custom React hooks
+│   │   ├── useAuth.ts
+│   │   └── useValidationSchema.ts
+│   ├── i18n/                   # Internationalization
+│   ├── navigations/            # Navigation configuration
+│   │   ├── AppStack.tsx
+│   │   ├── AuthStack.tsx
+│   │   ├── BottomTab.tsx
+│   │   ├── Router.tsx
+│   │   ├── Routes.ts
+│   │   ├── NavigationOptions.tsx
+│   │   ├── NavigationService.ts
+│   │   └── types.ts
+│   ├── reducers/               # Redux-like reducers
+│   │   ├── authReducer.ts
+│   │   └── index.ts
+│   ├── screens/                # Screen components
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   └── signup/
+│   │   ├── main/
+│   │   │   ├── home/
+│   │   │   └── myaccount/
+│   │   ├── onboarding/
+│   │   └── common/
+│   ├── services/               # API and storage services
+│   │   ├── api/
+│   │   │   └── apiService.ts
+│   │   └── storage/
+│   │       ├── storageKeys.ts
+│   │       └── storageService.ts
+│   ├── theme/                  # Theming
+│   │   ├── AppStyles.ts
+│   │   ├── Fonts.ts
+│   │   ├── ThemeConfig.ts
+│   │   ├── ThemeContext.tsx
+│   │   ├── Typography.ts
+│   │   ├── colors/
+│   │   └── index.ts
+│   ├── types/                  # TypeScript type definitions
+│   │   ├── appConfig.ts
+│   │   ├── formTypes.ts
+│   │   ├── globalTypes.ts
+│   │   └── index.ts
+│   └── utils/                  # Utility functions
+│       └── ViewPorts.ts
+├── android/                    # Android native code
+├── ios/                        # iOS native code
+├── __tests__/                  # Test files
+├── App.tsx                     # Root app component
+├── app.json                    # App manifest
+├── package.json
+├── tsconfig.json
+├── jest.config.js
+├── metro.config.js
+├── babel.config.js
+└── README.md
+```
 
-### Next Steps
-- If you want to integrate this into an existing app, check out the [Integration Guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- Learn more from the [React Native Docs](https://reactnative.dev/docs/getting-started).
+## 📱 Usage
 
-## 📦 Installed Dependencies
-Here are the major dependencies used in this project:
+### ⚡ Important: Demo Application - No Backend Services
 
-### **Core Dependencies**
-- `react`
-- `react-native`
+This application is a **demonstration project** that showcases authentication UI patterns and validation flows. It currently **does NOT use any real API or backend services**.
 
-### **Navigation**
-- `@react-navigation/native`
-- `@react-navigation/stack`
-- `@react-navigation/bottom-tabs`
-- `@react-navigation/drawer`
-- `@react-navigation/material-top-tabs`
-- `@react-navigation/native-stack`
+**How to test the app:**
+- Enter any valid email format (e.g., `test@example.com`)
+- Enter any password (minimum 8 characters)
+- The app will validate the input and allow you to proceed
+- All data is stored locally using MMKV storage
 
-### **UI & Animations**
-- `react-native-vector-icons`
-- `react-native-gesture-handler`
-- `react-native-reanimated`
-- `react-native-safe-area-context`
-- `react-native-screens`
-- `react-native-pager-view`
+When implementing this in a real application, you would replace the local validation with actual API calls to your backend.
 
-### **Development & Tooling**
-- `eslint`
-- `prettier`
-- `jest`
-- `typescript`
-- `@babel/core`
-- `@react-native-community/cli`
-- `@types/react`
-- `@types/jest`
+### Basic App Flow
 
-For the complete list of dependencies, refer to [`package.json`](./package.json).
+1. **Onboarding** - First-time users see the onboarding screen
+2. **Authentication** - Users can log in or sign up using dummy credentials
+3. **Main App** - Authenticated users access the main app with bottom tab navigation
+4. **Account Management** - Users can manage their profile
 
-## 📘 Additional Resources
-- [React Native Website](https://reactnative.dev)
-- [Getting Started Guide](https://reactnative.dev/docs/environment-setup)
-- [Learn the Basics](https://reactnative.dev/docs/getting-started)
-- [React Navigation](https://reactnavigation.org/)
-- [Jest Testing Framework](https://jestjs.io/)
+### Authentication Example
 
-## 🛠 Troubleshooting
-If you're facing issues, check the [Troubleshooting Guide](https://reactnative.dev/docs/troubleshooting).
+```tsx
+import { useAuth } from '@/hooks/useAuth';
+
+export function LoginScreen() {
+  const { onLogin } = useAuth();
+  
+  const handleLogin = async (email: string, password: string) => {
+    // API call to authenticate
+    const response = await apiService.login(email, password);
+    
+    // Update auth context
+    onLogin({
+      token: response.token,
+      user: response.user
+    });
+  };
+  
+  return (
+    // Your login form JSX
+  );
+}
+```
+
+### Form Validation Example
+
+```tsx
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().min(8).required('Password is required'),
+});
+
+export function MyForm() {
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+  
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Form fields */}
+    </form>
+  );
+}
+```
+
+### Theme Switching
+
+```tsx
+import { useTheme } from '@/theme';
+
+export function MyComponent() {
+  const { theme, toggleTheme } = useTheme();
+  
+  return (
+    <TouchableOpacity onPress={toggleTheme}>
+      <Text>Current theme: {theme.mode}</Text>
+    </TouchableOpacity>
+  );
+}
+```
+
+## 🧪 Testing
+
+### Run Tests
+```bash
+npm test
+# or
+yarn test
+```
+
+### Run Tests with Coverage
+```bash
+npm test -- --coverage
+```
+
+Jest is configured to work with React Native and TypeScript. Test files are located in `__tests__/` directory.
+
+## �️ Roadmap
+
+The following features are planned for upcoming releases:
+
+- **API Integration & Backend Services**
+  - REST API client with request/response interceptors
+  - Automatic token injection and refresh
+  - Error handling and retry mechanisms
+
+- **Environment Configuration**
+  - Multi-environment support (dev, staging, production)
+  - Secure configuration management
+  - Build-time and runtime configuration
+
+- **Internationalization (i18n)**
+  - Multi-language support framework
+  - Dynamic language switching
+  - Locale-specific formatting
+
+- **Advanced State Management**
+  - Redux or Zustand integration
+  - Middleware for logging and analytics
+  - DevTools integration
+
+- **Additional Features**
+  - Push notifications
+  - Deep linking
+  - Analytics integration
+  - Crash reporting
+  - Offline support
+
+## �📝 Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `npm start` | Start Metro development server |
+| `npm run android` | Build and run on Android |
+| `npm run ios` | Build and run on iOS |
+| `npm test` | Run Jest tests |
+| `npm run lint` | Run ESLint |
+| `npm run eject` | Eject from React Native CLI |
+
+## 🤝 Contributing
+
+1. Create a feature branch: `git checkout -b feature/my-feature`
+2. Commit changes: `git commit -am 'Add my feature'`
+3. Push to branch: `git push origin feature/my-feature`
+4. Submit a pull request
+
+### Code Standards
+
+- Use TypeScript for type safety
+- Follow ESLint configuration
+- Write descriptive commit messages
+- Test your changes before submitting PR
+- Use React hooks instead of class components
+
+## � Author
+
+This project is created to demonstrate best practices in mobile development with React Native.
+
+**For more information about my work and projects, visit my portfolio:**
+- Portfolio: [Kunaal Mangal](https://kunaalmangal.github.io/)
+- GitHub: [Kunaal Mangal](https://github.com/KunaalMangal)
+- LinkedIn: [Kunaal Mangal](https://www.linkedin.com/in/kunaalmangal/)
+
+## 📚 Documentation
+
+For troubleshooting, advanced configuration, and platform-specific issues, please refer to the official documentation:
+
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
+- [React Navigation Docs](https://reactnavigation.org/docs/getting-started/)
+- [React Hook Form Docs](https://react-hook-form.com/get-started)
+- [Yup Validation Library](https://github.com/jquense/yup)
+- [React Native MMKV](https://github.com/mrousavy/react-native-mmkv)
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+
+You are free to use this project for personal and commercial purposes with proper attribution.
+
+## 📞 Support
+
+For issues, questions, or suggestions, please open an issue in the repository.
 
 ---
-If you encounter any issues or have suggestions, feel free to raise an issue in the repository. 🚀
+
+**Built with ❤️ using React Native**
 
