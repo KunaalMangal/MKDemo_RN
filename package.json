@@ -13,7 +13,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@react-native/new-app-screen": "0.85.2",
-    "@react-navigation/bottom-tabs": "^7.15.10",
+    "@react-navigation/bottom-tabs": "^7.15.12",
     "@react-navigation/drawer": "^7.9.9",
     "@react-navigation/material-top-tabs": "^7.4.24",
     "@react-navigation/native": "^7.2.2",
